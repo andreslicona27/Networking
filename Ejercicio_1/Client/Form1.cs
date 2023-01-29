@@ -9,8 +9,6 @@ namespace Client
         {
             InitializeComponent();
         }
-
-
         private void button_Click(object sender, EventArgs e)
         {
             switch (((Button)sender).Text)
@@ -45,9 +43,9 @@ namespace Client
         const int PORT = 12000;
         string msg;
         string userMsg;
+        string serverResponse;
         public string Petition(string petition)
         {
-            string serverAnswer = "";
             IPEndPoint ie = new IPEndPoint(IPAddress.Parse(IP_SERVER), PORT);
             Socket server = new Socket(AddressFamily.InterNetwork,
             SocketType.Stream, ProtocolType.Tcp);
@@ -69,19 +67,19 @@ namespace Client
                     userMsg = petition;
                     sw.WriteLine(userMsg);
                     sw.Flush();
-                    serverAnswer = sr.ReadLine();
+                    msg = sr.ReadLine();
                 }
             }
             server.Close();
 
-            return serverAnswer;
+            return msg;
         }
 
         private void btnChangeIP_Click(object sender, EventArgs e)
         {
             Form2 changeServer = new Form2();
             changeServer.ShowDialog();
-           
+
         }
     }
 }

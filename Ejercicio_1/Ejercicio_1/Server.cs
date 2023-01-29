@@ -121,6 +121,12 @@ namespace Ejercicio_1
                                             }
                                         }
                                         break;
+
+                                    default:
+                                        sw.WriteLine("Unrecognized command");
+                                        msg = null;
+                                        sw.Flush();
+                                        break;
                                 }
                             }
                         }
