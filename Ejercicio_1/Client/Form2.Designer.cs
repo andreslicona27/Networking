@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.lblOldServer = new System.Windows.Forms.Label();
-            this.lblIp = new System.Windows.Forms.Label();
             this.lblPort = new System.Windows.Forms.Label();
+            this.lblIp = new System.Windows.Forms.Label();
+            this.lblOldServer = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnChange = new System.Windows.Forms.Button();
+            this.txtPort = new System.Windows.Forms.TextBox();
+            this.txtIp = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.lblNewServer = new System.Windows.Forms.Label();
-            this.txtIp = new System.Windows.Forms.TextBox();
-            this.txtPort = new System.Windows.Forms.TextBox();
-            this.btnChange = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -53,15 +53,15 @@
             this.panel1.Size = new System.Drawing.Size(239, 100);
             this.panel1.TabIndex = 0;
             // 
-            // lblOldServer
+            // lblPort
             // 
-            this.lblOldServer.AutoSize = true;
-            this.lblOldServer.ForeColor = System.Drawing.Color.White;
-            this.lblOldServer.Location = new System.Drawing.Point(12, 12);
-            this.lblOldServer.Name = "lblOldServer";
-            this.lblOldServer.Size = new System.Drawing.Size(82, 15);
-            this.lblOldServer.TabIndex = 0;
-            this.lblOldServer.Text = "Current Server";
+            this.lblPort.AutoSize = true;
+            this.lblPort.ForeColor = System.Drawing.Color.White;
+            this.lblPort.Location = new System.Drawing.Point(12, 65);
+            this.lblPort.Name = "lblPort";
+            this.lblPort.Size = new System.Drawing.Size(32, 15);
+            this.lblPort.TabIndex = 2;
+            this.lblPort.Text = "Port:";
             // 
             // lblIp
             // 
@@ -73,15 +73,15 @@
             this.lblIp.TabIndex = 1;
             this.lblIp.Text = "IP: ";
             // 
-            // lblPort
+            // lblOldServer
             // 
-            this.lblPort.AutoSize = true;
-            this.lblPort.ForeColor = System.Drawing.Color.White;
-            this.lblPort.Location = new System.Drawing.Point(12, 65);
-            this.lblPort.Name = "lblPort";
-            this.lblPort.Size = new System.Drawing.Size(32, 15);
-            this.lblPort.TabIndex = 2;
-            this.lblPort.Text = "Port:";
+            this.lblOldServer.AutoSize = true;
+            this.lblOldServer.ForeColor = System.Drawing.Color.White;
+            this.lblOldServer.Location = new System.Drawing.Point(12, 12);
+            this.lblOldServer.Name = "lblOldServer";
+            this.lblOldServer.Size = new System.Drawing.Size(82, 15);
+            this.lblOldServer.TabIndex = 0;
+            this.lblOldServer.Text = "Current Server";
             // 
             // panel2
             // 
@@ -95,6 +95,32 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(239, 130);
             this.panel2.TabIndex = 3;
+            // 
+            // btnChange
+            // 
+            this.btnChange.Location = new System.Drawing.Point(149, 95);
+            this.btnChange.Name = "btnChange";
+            this.btnChange.Size = new System.Drawing.Size(75, 23);
+            this.btnChange.TabIndex = 4;
+            this.btnChange.Text = "Change";
+            this.btnChange.UseVisualStyleBackColor = true;
+            this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
+            // 
+            // txtPort
+            // 
+            this.txtPort.Location = new System.Drawing.Point(12, 66);
+            this.txtPort.Name = "txtPort";
+            this.txtPort.PlaceholderText = "Insert new PORT";
+            this.txtPort.Size = new System.Drawing.Size(212, 23);
+            this.txtPort.TabIndex = 3;
+            // 
+            // txtIp
+            // 
+            this.txtIp.Location = new System.Drawing.Point(12, 37);
+            this.txtIp.Name = "txtIp";
+            this.txtIp.PlaceholderText = "Insert new IP";
+            this.txtIp.Size = new System.Drawing.Size(212, 23);
+            this.txtIp.TabIndex = 2;
             // 
             // label2
             // 
@@ -114,31 +140,6 @@
             this.lblNewServer.Size = new System.Drawing.Size(66, 15);
             this.lblNewServer.TabIndex = 0;
             this.lblNewServer.Text = "New Server";
-            // 
-            // txtIp
-            // 
-            this.txtIp.Location = new System.Drawing.Point(12, 37);
-            this.txtIp.Name = "txtIp";
-            this.txtIp.PlaceholderText = "Insert new IP";
-            this.txtIp.Size = new System.Drawing.Size(212, 23);
-            this.txtIp.TabIndex = 2;
-            // 
-            // txtPort
-            // 
-            this.txtPort.Location = new System.Drawing.Point(12, 66);
-            this.txtPort.Name = "txtPort";
-            this.txtPort.PlaceholderText = "Insert new PORT";
-            this.txtPort.Size = new System.Drawing.Size(212, 23);
-            this.txtPort.TabIndex = 3;
-            // 
-            // btnChange
-            // 
-            this.btnChange.Location = new System.Drawing.Point(149, 95);
-            this.btnChange.Name = "btnChange";
-            this.btnChange.Size = new System.Drawing.Size(75, 23);
-            this.btnChange.TabIndex = 4;
-            this.btnChange.Text = "Change";
-            this.btnChange.UseVisualStyleBackColor = true;
             // 
             // Form2
             // 

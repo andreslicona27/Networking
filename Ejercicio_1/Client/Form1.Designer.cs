@@ -47,6 +47,7 @@
             this.btnTime.Name = "btnTime";
             this.btnTime.Size = new System.Drawing.Size(117, 23);
             this.btnTime.TabIndex = 0;
+            this.btnTime.Tag = "time";
             this.btnTime.Text = "Time";
             this.btnTime.UseVisualStyleBackColor = false;
             this.btnTime.Click += new System.EventHandler(this.button_Click);
@@ -87,6 +88,7 @@
             this.btnDate.Name = "btnDate";
             this.btnDate.Size = new System.Drawing.Size(117, 23);
             this.btnDate.TabIndex = 2;
+            this.btnDate.Tag = "date";
             this.btnDate.Text = "Date";
             this.btnDate.UseVisualStyleBackColor = false;
             this.btnDate.Click += new System.EventHandler(this.button_Click);
@@ -99,6 +101,7 @@
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(117, 23);
             this.btnClose.TabIndex = 4;
+            this.btnClose.Tag = "close ";
             this.btnClose.Text = "Close Server";
             this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.button_Click);
@@ -111,6 +114,7 @@
             this.btnBoth.Name = "btnBoth";
             this.btnBoth.Size = new System.Drawing.Size(117, 23);
             this.btnBoth.TabIndex = 3;
+            this.btnBoth.Tag = "all";
             this.btnBoth.Text = "Date and Time";
             this.btnBoth.UseVisualStyleBackColor = false;
             this.btnBoth.Click += new System.EventHandler(this.button_Click);
