@@ -36,7 +36,7 @@ namespace Ejercicio_1
             }
         }
 
-
+        private bool conexion = true;
         public void init()
         {
             IPEndPoint ie = new IPEndPoint(IPAddress.Parse(ip), port);
@@ -45,102 +45,89 @@ namespace Ejercicio_1
                 s.Bind(ie);
                 s.Listen(2);
                 Console.WriteLine($"Server listening at port:{ie.Port}");
-                Socket sClient = s.Accept();
-                IPEndPoint ieClient = (IPEndPoint)sClient.RemoteEndPoint;
-                Console.WriteLine("Client connected: {0} at port {1}", ieClient.Address,
-               ieClient.Port);
-                using (NetworkStream ns = new NetworkStream(sClient))
-                using (StreamReader sr = new StreamReader(ns))
-                using (StreamWriter sw = new StreamWriter(ns))
+                while (conexion)
                 {
-                    string welcome = "Welcome to the ultimate server, thats powerfull enough to give the time, the date an even the combination of both";
-                    sw.WriteLine(welcome);
-                    sw.Flush();
-                    string msg = "";
-                    while (msg != null)
+                    Socket sClient = s.Accept();
+                    IPEndPoint ieClient = (IPEndPoint)sClient.RemoteEndPoint;
+                    Console.WriteLine("Client connected: {0} at port {1}", ieClient.Address,
+                   ieClient.Port);
+                    using (NetworkStream ns = new NetworkStream(sClient))
+                    using (StreamReader sr = new StreamReader(ns))
+                    using (StreamWriter sw = new StreamWriter(ns))
                     {
+                        string welcome = "Welcome to the ultimate server, thats powerfull enough to give the time, the date an even the combination of both";
+                        sw.WriteLine(welcome);
+                        sw.Flush();
+                        string msg = "";
                         try
                         {
                             msg = sr.ReadLine();
-                            if (msg != null)
+                            switch (msg)
                             {
-                                switch (msg)
-                                {
-                                    case "time":
-                                        string time = DateTime.Now.ToString("HH:mm:ss");
-                                        sw.WriteLine(time);
-                                        msg = null;
-                                        sw.Flush();
-                                        break;
+                                case "time":
+                                    sw.WriteLine(DateTime.Now.ToString("HH:mm:ss"));
+                                    sw.Flush();
+                                    break;
 
-                                    case "date":
-                                        string date = DateTime.Now.ToString("dd-MM-yyyy");
-                                        sw.WriteLine(date);
-                                        msg = null;
-                                        sw.Flush();
-                                        break;
+                                case "date":
+                                    sw.WriteLine(DateTime.Now.ToString("dd-MM-yyyy"));
+                                    sw.Flush();
+                                    break;
 
-                                    case "all":
-                                        string all = DateTime.Now.ToString();
-                                        sw.WriteLine(all);
-                                        msg = null;
-                                        sw.Flush();
-                                        break;
+                                case "all":
+                                    sw.WriteLine(DateTime.Now.ToString());
+                                    sw.Flush();
+                                    break;
 
-                                    case String closeMsg when closeMsg.StartsWith("close"):
-                                        string path = Environment.GetEnvironmentVariable("PROGRAMDATA");
-                                        string clientPassword = "";
-                                        using (StreamReader srPassword = new StreamReader(Environment.GetEnvironmentVariable("PROGRAMDATA") + "\\password.txt"))
+                                case String closeMsg when closeMsg.StartsWith("close"):
+                                    string path = Environment.GetEnvironmentVariable("PROGRAMDATA");
+                                    string clientPassword = "";
+                                    using (StreamReader srPassword = new StreamReader(Environment.GetEnvironmentVariable("PROGRAMDATA") + "\\password.txt"))
+                                    {
+                                        try
                                         {
-                                            try
+                                            if (closeMsg.Length > 5)
                                             {
-                                                if (closeMsg.Length > 5)
-                                                {
-                                                    clientPassword = closeMsg.Substring(5).Trim();
-                                                }
-
-                                                string password = srPassword.ReadToEnd();
-                                                if (password.Equals(clientPassword))
-                                                {
-                                                    sw.WriteLine("Server closed successfully");
-                                                    msg = null;
-                                                    sw.Flush();
-                                                    sClient.Close();
-                                                    s.Close();
-                                                }
-                                                else
-                                                {
-                                                    sw.WriteLine("That password its incorrect");
-                                                    msg = null;
-                                                    sw.Flush();
-                                                }
+                                                clientPassword = closeMsg.Substring(5).Trim();
                                             }
-                                            catch (IOException)
+
+                                            string password = srPassword.ReadToEnd();
+                                            if (password.Equals(clientPassword))
                                             {
-                                                msg = null;
+                                                sw.WriteLine("Server closed successfully");
+                                                conexion = false;
+                                                sw.Flush();
+                                                sClient.Close();
+                                                s.Close();
+                                            }
+                                            else
+                                            {
+                                                sw.WriteLine("That password its incorrect");
+                                                sw.Flush();
                                             }
                                         }
-                                        break;
+                                        catch (IOException)
+                                        {
+                                            conexion = false;
+                                        }
+                                    }
+                                    break;
 
-                                    default:
-                                        sw.WriteLine("Unrecognized command");
-                                        msg = null;
-                                        sw.Flush();
-                                        break;
-                                }
+                                default:
+                                    sw.WriteLine("Unrecognized command");
+                                    sw.Flush();
+                                    break;
                             }
                         }
                         catch (IOException e)
                         {
-                            msg = null;
+                            conexion = false;
                         }
+                        Console.WriteLine("Client disconnected.\nConnection closed");
                     }
-                    Console.WriteLine("Client disconnected.\nConnection closed");
+                    sClient.Close();
                 }
-                sClient.Close();
             }
-
-
         }
     }
 }

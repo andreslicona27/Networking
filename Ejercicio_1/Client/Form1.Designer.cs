@@ -75,9 +75,9 @@
             this.lblInfo.ForeColor = System.Drawing.Color.White;
             this.lblInfo.Location = new System.Drawing.Point(15, 17);
             this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(76, 15);
+            this.lblInfo.Size = new System.Drawing.Size(70, 15);
             this.lblInfo.TabIndex = 0;
-            this.lblInfo.Text = "Information: ";
+            this.lblInfo.Text = "Information";
             // 
             // btnDate
             // 

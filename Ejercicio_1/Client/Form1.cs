@@ -14,21 +14,21 @@ namespace Client
             switch (((Button)sender).Text)
             {
                 case "Time":
-                    lblInfo.Text += Petition("time");
+                    lblInfo.Text = "Information: " + Petition("time");
                     break;
 
                 case "Date":
-                    lblInfo.Text += Petition("date");
+                    lblInfo.Text = "Information: " + Petition("date");
                     break;
 
                 case "Date and Time":
-                    lblInfo.Text += Petition("all");
+                    lblInfo.Text = "Information: " + Petition("all");
                     break;
 
                 case "Close Server":
                     if (txtPassword.Text != null && txtPassword.Text.Length > 0)
                     {
-                        lblInfo.Text += Petition("close " + txtPassword);
+                        lblInfo.Text = "Information: " + Petition("close " + txtPassword.Text);
                     }
                     else
                     {
@@ -43,7 +43,6 @@ namespace Client
         const int PORT = 12000;
         string msg;
         string userMsg;
-        string serverResponse;
         public string Petition(string petition)
         {
             IPEndPoint ie = new IPEndPoint(IPAddress.Parse(IP_SERVER), PORT);
@@ -62,12 +61,16 @@ namespace Client
             using (StreamWriter sw = new StreamWriter(ns))
             {
                 msg = sr.ReadLine();
-                while (true)
+                try
                 {
                     userMsg = petition;
                     sw.WriteLine(userMsg);
                     sw.Flush();
                     msg = sr.ReadLine();
+                }
+                catch (IOException e)
+                {
+                    MessageBox.Show("Error with the server\n" + e.ToString(), "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             server.Close();
