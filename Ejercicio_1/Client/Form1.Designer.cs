@@ -127,7 +127,7 @@
             this.btnChangeIP.Name = "btnChangeIP";
             this.btnChangeIP.Size = new System.Drawing.Size(248, 23);
             this.btnChangeIP.TabIndex = 5;
-            this.btnChangeIP.Text = "Change Serve IP and Port";
+            this.btnChangeIP.Text = "Change IP and Port";
             this.btnChangeIP.UseVisualStyleBackColor = false;
             this.btnChangeIP.Click += new System.EventHandler(this.btnChangeIP_Click);
             // 

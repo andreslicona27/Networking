@@ -10,7 +10,7 @@ namespace Ejercicio_1
 {
     internal class Server
     {
-        private string ip = "127.0.0.1";
+        private string ip = "192.168.20.11";
         public string Ip
         {
             set

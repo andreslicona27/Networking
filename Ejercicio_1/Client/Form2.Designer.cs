@@ -59,9 +59,9 @@
             this.lblPort.ForeColor = System.Drawing.Color.White;
             this.lblPort.Location = new System.Drawing.Point(12, 65);
             this.lblPort.Name = "lblPort";
-            this.lblPort.Size = new System.Drawing.Size(32, 15);
+            this.lblPort.Size = new System.Drawing.Size(35, 15);
             this.lblPort.TabIndex = 2;
-            this.lblPort.Text = "Port:";
+            this.lblPort.Text = "Port: ";
             // 
             // lblIp
             // 
