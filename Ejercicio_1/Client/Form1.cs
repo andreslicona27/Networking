@@ -72,16 +72,9 @@ namespace Client
             Form2 changeServer = new Form2(IP_SERVER, PORT);
             if (changeServer.ShowDialog() == DialogResult.OK)
             {
-                if (changeServer.conection)
-                {
-                    IP_SERVER = changeServer.ip.ToString();
-                    PORT = changeServer.port;
-                    lblInfo.Text = "Information: Server changed successfully";
-                }
-                else
-                {
-                    lblInfo.Text = "Information: There was an error";
-                }
+                IP_SERVER = changeServer.ip.ToString();
+                PORT = changeServer.port;
+                lblInfo.Text = "Information: Server changed successfully";
             }
 
 

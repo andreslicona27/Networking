@@ -113,6 +113,7 @@
             this.txtPort.PlaceholderText = "Insert new PORT";
             this.txtPort.Size = new System.Drawing.Size(212, 23);
             this.txtPort.TabIndex = 3;
+            this.txtPort.TextChanged += new System.EventHandler(this.txtIp_TextChanged);
             // 
             // txtIp
             // 
@@ -121,6 +122,7 @@
             this.txtIp.PlaceholderText = "Insert new IP";
             this.txtIp.Size = new System.Drawing.Size(212, 23);
             this.txtIp.TabIndex = 2;
+            this.txtIp.TextChanged += new System.EventHandler(this.txtIp_TextChanged);
             // 
             // label2
             // 

@@ -15,12 +15,12 @@ namespace Client
 {
     public partial class Form2 : Form
     {
-        public bool conection = true;
         public Form2(string IP, int PORT)
         {
             InitializeComponent();
             lblIp.Text += IP.ToString();
             lblPort.Text += PORT.ToString();
+            btnChange.Visible = false;
         }
 
         public IPAddress ip;
@@ -29,30 +29,48 @@ namespace Client
         public int newPort;
         private void btnChange_Click(object sender, EventArgs e)
         {
-            bool ipTry = IPAddress.TryParse(txtIp.Text, out newIp);
-            if (ipTry)
+            DialogResult = DialogResult.OK;
+            ip = newIp;
+            port = newPort;
+            Close();
+        }
+
+        private void txtIp_TextChanged(object sender, EventArgs e)
+        {
+            if (((TextBox)sender) == txtIp)
             {
-                ip = newIp;
+                bool ipTry = IPAddress.TryParse(txtIp.Text, out newIp);
+                if (!ipTry)
+                {
+                    txtIp.BackColor = Color.Red;
+                }
+                else
+                {
+                    txtIp.BackColor = Color.LightGreen;
+                }
+
             }
-            else 
+            else if (((TextBox)sender) == txtPort)
             {
-                MessageBox.Show("That IP address is not valid", "IP Address Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                conection = false;
+                bool portTry = int.TryParse(txtPort.Text, out newPort);
+                if (!portTry || txtPort.Text.Length != 5)
+                {
+                    txtPort.BackColor = Color.Red;
+                }
+                else
+                {
+                    txtPort.BackColor = Color.LightGreen;
+                }
             }
 
-            bool portTry = int.TryParse(txtPort.Text, out newPort);
-            if (txtPort.Text.Length == 5 && portTry)
+            if (txtIp.BackColor == Color.Red || txtPort.BackColor == Color.Red)
             {
-                port = newPort;
+                btnChange.Visible = false;
             }
             else
             {
-                MessageBox.Show("That port is not valid", "Port Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                conection = false;
+                btnChange.Visible = true;
             }
-
-            DialogResult = DialogResult.OK;
-            Close();
         }
     }
 }
