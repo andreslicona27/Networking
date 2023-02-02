@@ -53,7 +53,7 @@ namespace Client
             else if (((TextBox)sender) == txtPort)
             {
                 bool portTry = int.TryParse(txtPort.Text, out newPort);
-                if (!portTry || txtPort.Text.Length != 5)
+                if (!portTry || txtPort.Text.Length > 65535)
                 {
                     txtPort.BackColor = Color.Red;
                 }
