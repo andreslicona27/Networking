@@ -11,7 +11,7 @@ namespace Ejercicio_3
 {
     internal class Server
     {
-        public string ip = "192.168.20.11";
+        public string ip = "192.168.56.1";
         public int port = 12000;
         ArrayList clients = new ArrayList();
         public void init()
