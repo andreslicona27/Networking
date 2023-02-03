@@ -52,9 +52,18 @@ namespace Ejercicio_2
                             sw.WriteLine(userMsg);
                             sw.Flush();
 
-                            while (sr.ReadLine() != null)
+                            if (((Button)sender).Tag.ToString().Equals("add"))
                             {
-                                tbInfo.Text += sr.ReadLine() + "\r\n";
+                                tbInfo.Text = sr.ReadLine();
+
+                            }
+                            else
+                            {
+                                tbInfo.Text = "";
+                                while (sr.ReadLine() != null)
+                                {
+                                    tbInfo.Text += sr.ReadLine() + "\r\n";
+                                }
                             }
 
                         }

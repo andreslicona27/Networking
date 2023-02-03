@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace Ejercicio_3
 {
@@ -12,6 +13,7 @@ namespace Ejercicio_3
     {
         public string ip = "127.0.0.1";
         public int port = 12000;
+        ArrayList clients = new ArrayList();
         public void init()
         {
             IPEndPoint ie = new IPEndPoint(IPAddress.Parse(ip), port);
@@ -40,34 +42,40 @@ namespace Ejercicio_3
             using (StreamWriter sw = new StreamWriter(ns))
             {
                 string msgUser = "";
-                
+                clients.Add(sw);
                 try
                 {
                     msgUser = sr.ReadLine();
                     if (msgUser.StartsWith("user"))
                     {
                         string user = string.Format("{0}@{1}", msgUser.Substring(5), ieClient.Address);
-                        sw.WriteLine(user + " has connected");
-                        sw.Flush();
-
-                        while (!msgUser.Equals("#exit"))
+                        printMsg(user + " has connected");
+                        while (msgUser != null && !msgUser.Contains("#exit"))
                         {
                             msgUser = sr.ReadLine();
-                            sw.WriteLine(user + " " + msgUser);
-                            sw.Flush();
+                            printMsg(user + " " + msgUser);
                         }
-
-                        sw.WriteLine(user + " has desconnected");
+                        printMsg(user + " has desconnected");
+                        clients.Remove(sw);
                     }
                 }
                 catch (IOException e)
                 {
-
+                    Console.WriteLine("Error " + e.Message);
                 }
                 Console.WriteLine("Client disconnected.\nConnection closed");
             }
             client.Close();
 
+        }
+
+        public void printMsg(string message)
+        {
+            foreach (StreamWriter client in clients)
+            {
+                client.WriteLine(message);
+                client.Flush();
+            }
         }
     }
 }
