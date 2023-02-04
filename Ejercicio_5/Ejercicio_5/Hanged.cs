@@ -12,8 +12,8 @@ namespace Ejercicio_5
 {
     internal class Hanged
     {
-        string IP_SERVER = "192.168.20.100";
-        int PORT = 5001;
+        string IP_SERVER = "127.0.0.1";
+        int PORT = 12000;
         string[] words;
         bool conexion = true;
         Random rand = new Random();
@@ -57,7 +57,7 @@ namespace Ejercicio_5
                     using (StreamReader sr = new StreamReader(ns))
                     using (StreamWriter sw = new StreamWriter(ns))
                     {
-                        string welcome = "Welcome to the ultimate server, thats powerfull enough to give the time, the date an even the combination of both";
+                        string welcome = "Welcome to the best game of hanged you will find";
                         sw.WriteLine(welcome);
                         sw.Flush();
                         string msg = "";
@@ -67,14 +67,15 @@ namespace Ejercicio_5
                             switch (msg)
                             {
                                 case "getword":
-                                    int num = rand.Next(1, words.Length);
+                                    getWords();
+                                    int num = rand.Next(0, words.Length);
                                     sw.WriteLine(words[num]);
                                     sw.Flush();
                                     break;
 
                                 case String newWordOption when newWordOption.StartsWith("sendword"):
                                     string newWord = "";
-                                    using (StreamWriter swWord = new StreamWriter(Environment.GetEnvironmentVariable("USERPROFILE") + "\\palabras", true))
+                                    using (StreamWriter swWord = new StreamWriter(Environment.GetEnvironmentVariable("USERPROFILE") + "\\palabras.txt", true))
                                     {
                                         try
                                         {
@@ -82,20 +83,67 @@ namespace Ejercicio_5
                                             {
                                                 newWord = newWordOption.Substring(9);
                                                 swWord.WriteLine("," + newWord);
+                                                sw.WriteLine("OK");
+                                                sw.Flush();
                                                 getWords();
+
+                                            }
+                                            else
+                                            {
+                                                sw.WriteLine("ERROR");
+                                                sw.Flush();
                                             }
                                         }
                                         catch (IOException)
                                         {
+                                            sClient.Close();
                                         }
                                     }
-                                    sw.WriteLine(DateTime.Now.ToString("dd-MM-yyyy"));
-                                    sw.Flush();
                                     break;
 
                                 case "getrecords":
-                                    sw.WriteLine(DateTime.Now.ToString());
-                                    sw.Flush();
+                                    using (StreamReader srRecords = new StreamReader(Environment.GetEnvironmentVariable("USERPROFILE") + "\\records.txt"))
+                                    {
+                                        try
+                                        {
+                                            if (srRecords != null)
+                                            {
+                                                sw.WriteLine(srRecords.ReadToEnd);
+                                                sw.Flush();
+                                            }
+                                        }
+                                        catch (IOException)
+                                        {
+
+                                        }
+                                    }
+                                    break;
+
+                                case String record when record.StartsWith("sendrecord"):
+                                    string newRecord = "";
+                                    using (StreamWriter swRecord = new StreamWriter(Environment.GetEnvironmentVariable("USERPROFILE") + "\\palabras.txt", true))
+                                    {
+                                        try
+                                        {
+                                            if (record.Length > 11)
+                                            {
+                                                record = record.Substring(11);
+                                                swRecord.WriteLine("," + newRecord);
+
+                                                sw.WriteLine("OK");
+                                                sw.Flush();
+                                            }
+                                            else
+                                            {
+                                                sw.WriteLine("ERROR");
+                                                sw.Flush();
+                                            }
+                                        }
+                                        catch (IOException)
+                                        {
+                                            sClient.Close();
+                                        }
+                                    }
                                     break;
 
                                 case String closeMsg when closeMsg.StartsWith("closeserver"):
@@ -105,9 +153,9 @@ namespace Ejercicio_5
                                     {
                                         try
                                         {
-                                            if (closeMsg.Length > 5)
+                                            if (closeMsg.Length > 13)
                                             {
-                                                clientPassword = closeMsg.Substring(5).Trim();
+                                                clientPassword = closeMsg.Substring(13).Trim();
                                             }
 
                                             string password = srPassword.ReadToEnd();
