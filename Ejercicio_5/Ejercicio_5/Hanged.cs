@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 using System.Reflection;
+using System.IO;
 
 namespace Ejercicio_5
 {
@@ -75,9 +76,9 @@ namespace Ejercicio_5
 
                                 case String newWordOption when newWordOption.StartsWith("sendword"):
                                     string newWord = "";
-                                    using (StreamWriter swWord = new StreamWriter(Environment.GetEnvironmentVariable("USERPROFILE") + "\\palabras.txt", true))
+                                    try
                                     {
-                                        try
+                                        using (StreamWriter swWord = new StreamWriter(Environment.GetEnvironmentVariable("USERPROFILE") + "\\palabras.txt", true))
                                         {
                                             if (newWordOption.Length > 9)
                                             {
@@ -94,48 +95,98 @@ namespace Ejercicio_5
                                                 sw.Flush();
                                             }
                                         }
-                                        catch (IOException)
-                                        {
-                                            sClient.Close();
-                                        }
+                                    }
+                                    catch (IOException)
+                                    {
+                                        sClient.Close();
                                     }
                                     break;
 
                                 case "getrecords":
-                                    using (StreamReader srRecords = new StreamReader(Environment.GetEnvironmentVariable("USERPROFILE") + "\\records.txt"))
+                                    string pathGetRecords = Environment.GetEnvironmentVariable("USERPROFILE");
+                                    bool hasRecords = true;
+                                    try
                                     {
-                                        try
+                                        if (!File.Exists(pathGetRecords + "\\records.txt"))
                                         {
-                                            if (srRecords != null)
+                                            File.Create(pathGetRecords + "\\records.txt");
+                                            hasRecords = false;
+                                        }
+                                        else
+                                        {
+                                            FileInfo f = new FileInfo(pathGetRecords + "\\records.txt");
+                                            if (f.Length < 0)
                                             {
-                                                sw.WriteLine(srRecords.ReadToEnd);
-                                                sw.Flush();
+                                                hasRecords = false;
                                             }
                                         }
-                                        catch (IOException)
-                                        {
 
+                                        if (hasRecords)
+                                        {
+                                            string message = "";
+                                            using (StreamReader srRecords = new StreamReader(pathGetRecords + "\\records.txt"))
+                                            {
+                                                if (srRecords != null)
+                                                {
+                                                    message = srRecords.ReadToEnd();
+                                                    sw.WriteLine(message);
+                                                    sw.Flush();
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            sw.WriteLine("No records to show yet");
+                                            sw.Flush();
                                         }
                                     }
+                                    catch (IOException)
+                                    {
+                                        conexion = false;
+                                    }
+
                                     break;
 
                                 case String record when record.StartsWith("sendrecord"):
-                                    string newRecord = "";
-                                    using (StreamWriter swRecord = new StreamWriter(Environment.GetEnvironmentVariable("USERPROFILE") + "\\palabras.txt", true))
+                                    string aux = "";
+                                    
+                                    string pathSetRecord = Environment.GetEnvironmentVariable("USERPROFILE");
+                                    using (StreamWriter swRecord = new StreamWriter(pathSetRecord + "\\records.txt"))
                                     {
                                         try
                                         {
                                             if (record.Length > 11)
                                             {
                                                 record = record.Substring(11);
-                                                swRecord.WriteLine("," + newRecord);
+                                                string time = record.Substring(3).Trim();
+                                                using (StreamReader srSetREcord = new StreamReader(pathSetRecord + "\\records.txt"))
+                                                {
+                                                    aux = srSetREcord.ReadToEnd();
+                                                }
+                                                string[] records = aux.Split("\r\n");
 
-                                                sw.WriteLine("OK");
-                                                sw.Flush();
+                                                for(int i = 0; i < records.Length; i++)
+                                                {
+                                                    if (int.Parse(records[i].Substring(3).Trim()) < int.Parse(time))
+                                                    {
+                                                        records[i] = record;
+                                                    }
+                                                }
+
+                                                using (StreamWriter swSetRecord = new StreamWriter(pathSetRecord + "\\record.txt"))
+                                                {
+                                                    foreach(string r in records)
+                                                    {
+                                                        swSetRecord.WriteLine(r + "\r\n");
+                                                    }
+                                                    sw.WriteLine("ACCEPT");
+                                                    sw.Flush();
+                                                }
+
                                             }
                                             else
                                             {
-                                                sw.WriteLine("ERROR");
+                                                sw.WriteLine("REJECT");
                                                 sw.Flush();
                                             }
                                         }
@@ -148,14 +199,14 @@ namespace Ejercicio_5
 
                                 case String closeMsg when closeMsg.StartsWith("closeserver"):
                                     string passwordPath = Environment.GetEnvironmentVariable("PROGRAMDATA");
-                                    string clientPassword = "";
                                     using (StreamReader srPassword = new StreamReader(Environment.GetEnvironmentVariable("PROGRAMDATA") + "\\password.txt"))
                                     {
                                         try
                                         {
+                                            string clientPassword = "";
                                             if (closeMsg.Length > 13)
                                             {
-                                                clientPassword = closeMsg.Substring(13).Trim();
+                                                clientPassword = closeMsg.Substring(12).Trim();
                                             }
 
                                             string password = srPassword.ReadToEnd();
