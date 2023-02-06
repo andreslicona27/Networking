@@ -15,7 +15,7 @@ namespace Client
         public Form1()
         {
             InitializeComponent();
-            IP_SERVER = "127.0.0.1";
+            IP_SERVER = "192.168.20.11";
             PORT = 12000;
         }
 
@@ -34,7 +34,7 @@ namespace Client
                     msg = sr.ReadLine();
                     try
                     {
-                        if (((Button)sender).Text.Equals("Close Server"))
+                        if (((Button)sender).Text == "Close Server")
                         {
                             if (txtPassword.Text != null && txtPassword.Text.Length > 0)
                             {
@@ -62,7 +62,7 @@ namespace Client
             }
             catch (SocketException error)
             {
-                MessageBox.Show("Error with the server conection" + error.Message, "Socket Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error with the server conection", "Socket Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -72,9 +72,16 @@ namespace Client
             Form2 changeServer = new Form2(IP_SERVER, PORT);
             if (changeServer.ShowDialog() == DialogResult.OK)
             {
-                IP_SERVER = changeServer.ip.ToString();
-                PORT = changeServer.port;
-                lblInfo.Text = "Information: Server changed successfully";
+                if (changeServer.ip != null || changeServer.port != null)
+                {
+                    IP_SERVER = changeServer.ip.ToString();
+                    PORT = changeServer.port;
+                    lblInfo.Text = "Information: Server changed successfully";
+                }
+                else
+                {
+                    MessageBox.Show("There where some informacion missing", "Missing information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
 
 

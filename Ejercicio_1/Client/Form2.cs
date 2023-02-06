@@ -29,10 +29,17 @@ namespace Client
         public int newPort;
         private void btnChange_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.OK;
-            ip = newIp;
-            port = newPort;
-            Close();
+            if (txtIp.Text != null && txtPort.Text != null)
+            {
+                DialogResult = DialogResult.OK;
+                ip = newIp;
+                port = newPort;
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Fill all the textboxes", "Missing information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void txtIp_TextChanged(object sender, EventArgs e)
@@ -40,7 +47,7 @@ namespace Client
             if (((TextBox)sender) == txtIp)
             {
                 bool ipTry = IPAddress.TryParse(txtIp.Text, out newIp);
-                if (!ipTry)
+                if (!ipTry || txtIp.Text.Length < 0)
                 {
                     txtIp.BackColor = Color.Red;
                 }
@@ -53,7 +60,7 @@ namespace Client
             else if (((TextBox)sender) == txtPort)
             {
                 bool portTry = int.TryParse(txtPort.Text, out newPort);
-                if (!portTry || txtPort.Text.Length > 65535)
+                if (!portTry || int.Parse(txtPort.Text) > 65535 || txtPort.Text.Length < 0 )
                 {
                     txtPort.BackColor = Color.Red;
                 }
