@@ -30,7 +30,7 @@ namespace Ejercicio_2
             if (((TextBox)sender) == txtIp)
             {
                 bool ipTry = IPAddress.TryParse(txtIp.Text, out newIp);
-                if (!ipTry)
+                if (!ipTry || txtIp.Text.Length < 0)
                 {
                     txtIp.BackColor = Color.Red;
                 }
@@ -43,7 +43,7 @@ namespace Ejercicio_2
             else if (((TextBox)sender) == txtPort)
             {
                 bool portTry = int.TryParse(txtPort.Text, out newPort);
-                if (!portTry || txtPort.Text.Length > 65535)
+                if (!portTry || txtPort.Text.Length > IPEndPoint.MaxPort || txtPort.Text.Length < 0)
                 {
                     txtPort.BackColor = Color.Red;
                 }

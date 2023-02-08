@@ -13,7 +13,7 @@ namespace Ejercicio_5
 {
     internal class Hanged
     {
-        string IP_SERVER = "127.0.0.1";
+        string IP_SERVER = "192.168.20.11";
         int PORT = 12000;
         string[] words;
         bool conexion = true;
@@ -36,25 +36,37 @@ namespace Ejercicio_5
                     words[i] = words[i].ToUpper();
                 }
             }
-            catch (NullReferenceException)
+            catch (NullReferenceException error)
             {
-
+                Console.WriteLine($"Error {error.Message}");
             }
         }
         public void init()
         {
+            bool tryConexion = false;
             IPEndPoint ie = new IPEndPoint(IPAddress.Parse(IP_SERVER), PORT);
             using (Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
             {
-                s.Bind(ie);
-                s.Listen(2);
+                do
+                {
+                    try
+                    {
+                        s.Bind(ie);
+                        tryConexion = true;
+                    }
+                    catch (SocketException error)
+                    {
+                        Console.WriteLine($"Error {error.Message}");
+                    }
+                } while (!tryConexion);
+
+                s.Listen(5);
                 Console.WriteLine($"Server listening at port:{ie.Port}");
                 while (conexion)
                 {
                     Socket sClient = s.Accept();
                     IPEndPoint ieClient = (IPEndPoint)sClient.RemoteEndPoint;
-                    Console.WriteLine("Client connected: {0} at port {1}", ieClient.Address,
-                   ieClient.Port);
+                    Console.WriteLine("Client connected: {0} at port {1}", ieClient.Address, ieClient.Port);
                     using (NetworkStream ns = new NetworkStream(sClient))
                     using (StreamReader sr = new StreamReader(ns))
                     using (StreamWriter sw = new StreamWriter(ns))
@@ -75,7 +87,7 @@ namespace Ejercicio_5
                                     sw.Flush();
                                     break;
 
-                                case String newWordOption when newWordOption.StartsWith("sendword"):
+                                case String newWordOption when newWordOption.StartsWith("sendword "):
                                     string newWord = "";
                                     try
                                     {
@@ -126,12 +138,9 @@ namespace Ejercicio_5
                                             string message = "";
                                             using (StreamReader srRecords = new StreamReader(pathRecord))
                                             {
-                                                //if (srRecords != null)
-                                                //{
                                                 message = srRecords.ReadToEnd();
                                                 sw.WriteLine(message);
                                                 sw.Flush();
-                                                //}
                                             }
                                         }
                                         else
@@ -142,14 +151,15 @@ namespace Ejercicio_5
                                     }
                                     catch (IOException)
                                     {
-                                        conexion = false;
+                                        sClient.Close();
                                     }
 
                                     break;
 
-                                case String record when record.StartsWith("sendrecord"):
-                                    string aux = "";
+                                case String record when record.StartsWith("sendrecord "):
                                     bool newRecordObteined = false;
+                                    string aux = "";
+                                    string[] records;
                                     try
                                     {
                                         if (!File.Exists(pathRecord))
@@ -157,39 +167,64 @@ namespace Ejercicio_5
                                             File.Create(pathRecord);
                                         }
 
+                                        using (StreamReader srSetRecord = new StreamReader(pathRecord))
+                                        {
+                                            aux = srSetRecord.ReadToEnd();
+                                        }
+                                        records = aux.Split("\r\n");
+
                                         using (StreamWriter swRecord = new StreamWriter(pathRecord))
                                         {
                                             if (record.Length > 11)
                                             {
-                                                record = record.Substring(10);
-                                                string time = record.Substring(3).Trim();
-                                                using (StreamReader srSetRecord = new StreamReader(pathRecord))
-                                                {
-                                                    aux = srSetRecord.ReadToEnd();
-                                                }
-                                                string[] records = aux.Split("\r\n");
+                                                record = record.Substring(10).Trim();
+                                            }
+                                            int newRecord = int.Parse(record.Substring(3).Trim());
 
-                                                for (int i = 0; i < records.Length; i++)
+                                            if (records.Length > 0)
+                                            {
+                                                int i;
+                                                do
                                                 {
-                                                    if (int.Parse(records[i].Substring(3).Trim()) < int.Parse(time))
+                                                    for (i = 0; i < records.Length - 1; i++)
                                                     {
-                                                        records[i] = record;
-                                                        newRecordObteined = true;
-                                                    }
-                                                }
+                                                        int oldRecord = int.Parse(records[i].Substring(3).Trim());
+                                                        if (newRecord > oldRecord)
+                                                        {
+                                                            switch (i)
+                                                            {
+                                                                case 0:
+                                                                    records[i + 2] = records[i + 1];
+                                                                    records[i + 1] = records[i];
+                                                                    records[i] = record;
+                                                                    break;
+                                                                case 1:
+                                                                    records[i + 1] = records[i];
+                                                                    records[i] = record;
+                                                                    break;
+                                                                case 2:
+                                                                    records[i] = record;
+                                                                    break;
+                                                            }
 
-                                                using (StreamWriter swSetRecord = new StreamWriter(pathRecord))
-                                                {
-                                                    foreach (string r in records)
-                                                    {
-                                                        swSetRecord.WriteLine(r + "\r\n");
+                                                            newRecordObteined = true;
+                                                            i = records.Length;
+                                                        }
                                                     }
-                                                }
 
+                                                } while (i <= records.Length);
+                                            }
+                                            else
+                                            {
+                                                records[0] = record;
                                             }
 
                                             if (newRecordObteined)
                                             {
+                                                foreach (string r in records)
+                                                {
+                                                    swRecord.WriteLine(r);
+                                                }
                                                 sw.WriteLine("ACCEPT");
                                                 sw.Flush();
                                             }
@@ -200,29 +235,37 @@ namespace Ejercicio_5
                                             }
                                         }
                                     }
+                                    catch (FormatException error)
+                                    {
+                                        sw.WriteLine("An error has ocurried" + error);
+                                        sw.Flush();
+                                        sClient.Close();
+                                    }
                                     catch (IOException)
                                     {
+                                        sw.WriteLine("An error has ocurried");
+                                        sw.Flush();
                                         sClient.Close();
                                     }
 
                                     break;
 
-                                case String closeMsg when closeMsg.StartsWith("closeserver"):
+                                case String closeMsg when closeMsg.StartsWith("closeserver "):
                                     using (StreamReader srPassword = new StreamReader(Environment.GetEnvironmentVariable("PROGRAMDATA") + "\\password.txt"))
                                     {
+                                        string password = srPassword.ReadToEnd();
+                                        string clientPassword = "";
                                         try
                                         {
-                                            string clientPassword = "";
                                             if (closeMsg.Length > 13)
                                             {
                                                 clientPassword = closeMsg.Substring(12).Trim();
                                             }
 
-                                            string password = srPassword.ReadToEnd();
-                                            if (password.Equals(clientPassword))
+                                            if (password == clientPassword)
                                             {
-                                                sw.WriteLine("Server closed successfully");
                                                 conexion = false;
+                                                sw.WriteLine("Server closed successfully");
                                                 sw.Flush();
                                                 sClient.Close();
                                                 s.Close();

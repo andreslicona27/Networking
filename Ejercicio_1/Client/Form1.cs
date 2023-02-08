@@ -72,7 +72,7 @@ namespace Client
             Form2 changeServer = new Form2(IP_SERVER, PORT);
             if (changeServer.ShowDialog() == DialogResult.OK)
             {
-                if (changeServer.ip != null || changeServer.port != null)
+                if (changeServer.ip != null && changeServer.port != null)
                 {
                     IP_SERVER = changeServer.ip.ToString();
                     PORT = changeServer.port;
@@ -80,7 +80,7 @@ namespace Client
                 }
                 else
                 {
-                    MessageBox.Show("There where some informacion missing", "Missing information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Some informacion is missing", "Missing information", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 

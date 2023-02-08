@@ -8,7 +8,6 @@ namespace Ejercicio_2
     {
         string IP_SERVER = "192.168.20.100";
         int PORT = 5001;
-        string msg;
         string userMsg;
         public Form1()
         {
@@ -20,9 +19,16 @@ namespace Ejercicio_2
             ChangeServer cs = new ChangeServer(IP_SERVER, PORT);
             if (cs.ShowDialog() == DialogResult.OK)
             {
-                IP_SERVER = cs.ip.ToString();
-                PORT = cs.port;
-                tbInfo.Text = "Information: Server changed successfully";
+                if (cs.ip != null && cs.port != null)
+                {
+                    IP_SERVER = cs.ip.ToString();
+                    PORT = cs.port;
+                    tbInfo.Text = "Information: Server changed successfully";
+                }
+                else
+                {
+                    MessageBox.Show("Some informacion is missing", "Missing information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -102,9 +108,9 @@ namespace Ejercicio_2
                     sw.WriteLine(tbUser.Text);
                 }
             }
-            catch (IOException)
+            catch (IOException error)
             {
-
+                Console.WriteLine($"Error {error.Message}");
             }
         }
 
@@ -122,9 +128,9 @@ namespace Ejercicio_2
                         tbUser.Text = sr.ReadLine();
                     }
                 }
-                catch (IOException)
+                catch (IOException error)
                 {
-
+                    Console.WriteLine($"Error {error.Message}");
                 }
             }
 

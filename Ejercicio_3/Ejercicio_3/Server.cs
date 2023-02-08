@@ -16,10 +16,23 @@ namespace Ejercicio_3
         ArrayList clients = new ArrayList();
         public void init()
         {
+            bool tryConexion = false;
             IPEndPoint ie = new IPEndPoint(IPAddress.Parse(ip), port);
             using (Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
             {
-                s.Bind(ie);
+                do
+                {
+                    try
+                    {
+                        s.Bind(ie);
+                        tryConexion = true;
+                    }
+                    catch (SocketException error)
+                    {
+                        Console.WriteLine($"Erorr: {error.Message}");
+                        ie.Port++;
+                    }
+                } while (!tryConexion);
                 s.Listen(10);
                 Console.WriteLine($"Server listening at port:{ie.Port}");
                 while (true)
@@ -46,22 +59,22 @@ namespace Ejercicio_3
                 try
                 {
                     msgUser = sr.ReadLine();
-                    if (msgUser.StartsWith("user"))
+                    if (msgUser.StartsWith("user "))
                     {
                         string user = string.Format("{0}@{1}", msgUser.Substring(5), ieClient.Address);
-                        printMsg(user + " has connected");
+                        printMsg($"{user} has connected");
                         while (msgUser != null && !msgUser.Contains("#exit"))
                         {
                             msgUser = sr.ReadLine();
-                            printMsg(user + " " + msgUser);
+                            printMsg($"{user} {msgUser}");
                         }
-                        printMsg(user + " has desconnected");
                         clients.Remove(sw);
+                        printMsg($"{user} has desconnected");
                     }
                 }
                 catch (IOException e)
                 {
-                    Console.WriteLine("Error " + e.Message);
+                    Console.WriteLine($"Error {e.Message}");
                 }
                 Console.WriteLine("Client disconnected.\nConnection closed");
             }
@@ -73,11 +86,8 @@ namespace Ejercicio_3
         {
             foreach (StreamWriter client in clients)
             {
-                if (client != null)
-                {
-                    client.WriteLine(message);
-                    client.Flush();
-                }
+                client.WriteLine(message);
+                client.Flush();
             }
         }
     }

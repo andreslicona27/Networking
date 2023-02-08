@@ -17,23 +17,24 @@ namespace Ejercicio_1
         private bool conexion = true;
         public void init()
         {
-            bool con = false;
+            bool tryConexion = false;
             IPEndPoint ie = new IPEndPoint(IPAddress.Parse(ip), port);
             using (Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
             {
-                while (!con)
+                do
                 {
                     try
                     {
                         s.Bind(ie);
-                        con = true;
+                        tryConexion = true;
                     }
-                    catch (SocketException)
+                    catch (SocketException e)
                     {
-                        port++;
+                        Console.WriteLine("Error " + e.Message);
+                        ie.Port++;
                     }
+                } while (!tryConexion);
 
-                }
                 s.Listen(2);
                 Console.WriteLine($"Server listening at port:{ie.Port}");
                 while (conexion)
@@ -118,7 +119,7 @@ namespace Ejercicio_1
                     }
                     sClient.Close();
                 }
-            }
+            }  
         }
     }
 }
