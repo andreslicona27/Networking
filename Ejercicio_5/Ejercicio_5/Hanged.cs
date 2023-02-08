@@ -159,7 +159,7 @@ namespace Ejercicio_5
                                 case String record when record.StartsWith("sendrecord "):
                                     bool newRecordObteined = false;
                                     string aux = "";
-                                    string[] records;
+                                    string[] records = new string[0];
                                     try
                                     {
                                         if (!File.Exists(pathRecord))
@@ -171,7 +171,11 @@ namespace Ejercicio_5
                                         {
                                             aux = srSetRecord.ReadToEnd();
                                         }
-                                        records = aux.Split("\r\n");
+                                        if (aux.Length > 0)
+                                        {
+                                            records = aux.Split("\r\n");
+                                        }
+
 
                                         using (StreamWriter swRecord = new StreamWriter(pathRecord))
                                         {
@@ -186,7 +190,7 @@ namespace Ejercicio_5
                                                 int i;
                                                 do
                                                 {
-                                                    for (i = 0; i < records.Length - 1; i++)
+                                                    for (i = 0; i < records.Length; i++)
                                                     {
                                                         int oldRecord = int.Parse(records[i].Substring(3).Trim());
                                                         if (newRecord > oldRecord)
