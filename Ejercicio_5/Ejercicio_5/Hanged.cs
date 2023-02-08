@@ -13,7 +13,8 @@ namespace Ejercicio_5
 {
     internal class Hanged
     {
-        string IP_SERVER = "192.168.20.11";
+        //string IP_SERVER = "192.168.20.11";
+        string IP_SERVER = "192.168.56.1";
         int PORT = 12000;
         string[] words;
         bool conexion = true;
@@ -139,8 +140,16 @@ namespace Ejercicio_5
                                             using (StreamReader srRecords = new StreamReader(pathRecord))
                                             {
                                                 message = srRecords.ReadToEnd();
-                                                sw.WriteLine(message);
-                                                sw.Flush();
+                                                if (message.Trim().Length < 0)
+                                                {
+                                                    sw.WriteLine("No records to show yet");
+                                                    sw.Flush();
+                                                }
+                                                else
+                                                {
+                                                    sw.WriteLine(message);
+                                                    sw.Flush();
+                                                }
                                             }
                                         }
                                         else
@@ -159,7 +168,7 @@ namespace Ejercicio_5
                                 case String record when record.StartsWith("sendrecord "):
                                     bool newRecordObteined = false;
                                     string aux = "";
-                                    string[] records = new string[0];
+                                    string[] records = new string[3];
                                     try
                                     {
                                         if (!File.Exists(pathRecord))
@@ -185,43 +194,37 @@ namespace Ejercicio_5
                                             }
                                             int newRecord = int.Parse(record.Substring(3).Trim());
 
-                                            if (records.Length > 0)
+                                            int i;
+                                            do
                                             {
-                                                int i;
-                                                do
+                                                for (i = 0; i < records.Length; i++)
                                                 {
-                                                    for (i = 0; i < records.Length; i++)
+                                                    int oldRecord = int.Parse(records[i].Substring(3).Trim());
+                                                    if (newRecord > oldRecord)
                                                     {
-                                                        int oldRecord = int.Parse(records[i].Substring(3).Trim());
-                                                        if (newRecord > oldRecord)
+                                                        switch (i)
                                                         {
-                                                            switch (i)
-                                                            {
-                                                                case 0:
-                                                                    records[i + 2] = records[i + 1];
-                                                                    records[i + 1] = records[i];
-                                                                    records[i] = record;
-                                                                    break;
-                                                                case 1:
-                                                                    records[i + 1] = records[i];
-                                                                    records[i] = record;
-                                                                    break;
-                                                                case 2:
-                                                                    records[i] = record;
-                                                                    break;
-                                                            }
-
-                                                            newRecordObteined = true;
-                                                            i = records.Length;
+                                                            case 0:
+                                                                records[i + 2] = records[i + 1];
+                                                                records[i + 1] = records[i];
+                                                                records[i] = record;
+                                                                break;
+                                                            case 1:
+                                                                records[i + 1] = records[i];
+                                                                records[i] = record;
+                                                                break;
+                                                            case 2:
+                                                                records[i] = record;
+                                                                break;
                                                         }
-                                                    }
 
-                                                } while (i <= records.Length);
-                                            }
-                                            else
-                                            {
-                                                records[0] = record;
-                                            }
+                                                        newRecordObteined = true;
+                                                        i = records.Length;
+                                                    }
+                                                }
+
+                                            } while (i <= records.Length);
+                                            //records[0] = record;
 
                                             if (newRecordObteined)
                                             {
