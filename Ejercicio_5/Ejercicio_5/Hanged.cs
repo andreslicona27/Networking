@@ -168,7 +168,7 @@ namespace Ejercicio_5
                                 case String record when record.StartsWith("sendrecord "):
                                     bool newRecordObteined = false;
                                     string aux = "";
-                                    string[] records = new string[3];
+                                    List<string> records = new List<string>();
                                     try
                                     {
                                         if (!File.Exists(pathRecord))
@@ -178,69 +178,37 @@ namespace Ejercicio_5
 
                                         using (StreamReader srSetRecord = new StreamReader(pathRecord))
                                         {
-                                            aux = srSetRecord.ReadToEnd();
-                                        }
-                                        if (aux.Length > 0)
-                                        {
-                                            records = aux.Split("\r\n");
+                                            while (srSetRecord != null)
+                                            {
+                                                records.Add(srSetRecord.ReadLine());
+                                            }
                                         }
 
-
+                                        double time = 0;
                                         using (StreamWriter swRecord = new StreamWriter(pathRecord))
                                         {
                                             if (record.Length > 11)
                                             {
-                                                record = record.Substring(10).Trim();
+                                                record.Substring(11);
+                                                time = double.Parse(record.Substring(2));
                                             }
-                                            int newRecord = int.Parse(record.Substring(3).Trim());
 
-                                            int i;
-                                            do
+                                            if (records.Count > 0)
                                             {
-                                                for (i = 0; i < records.Length; i++)
+                                                if (records.Any(r => double.Parse(r.Substring(2).Trim()) < time))
                                                 {
-                                                    int oldRecord = int.Parse(records[i].Substring(3).Trim());
-                                                    if (newRecord > oldRecord)
-                                                    {
-                                                        switch (i)
-                                                        {
-                                                            case 0:
-                                                                records[i + 2] = records[i + 1];
-                                                                records[i + 1] = records[i];
-                                                                records[i] = record;
-                                                                break;
-                                                            case 1:
-                                                                records[i + 1] = records[i];
-                                                                records[i] = record;
-                                                                break;
-                                                            case 2:
-                                                                records[i] = record;
-                                                                break;
-                                                        }
-
-                                                        newRecordObteined = true;
-                                                        i = records.Length;
-                                                    }
+                                                    records.Remove(records.Where(r => double.Parse(r.Substring(2).Trim()) > time).FirstOrDefault());
+                                                    records.Add(record);
                                                 }
-
-                                            } while (i <= records.Length);
-                                            //records[0] = record;
-
-                                            if (newRecordObteined)
-                                            {
-                                                foreach (string r in records)
-                                                {
-                                                    swRecord.WriteLine(r);
-                                                }
-                                                sw.WriteLine("ACCEPT");
-                                                sw.Flush();
                                             }
                                             else
                                             {
-                                                sw.WriteLine("REJECT");
-                                                sw.Flush();
+                                                swRecord.WriteLine(record);
                                             }
                                         }
+                                        sw.WriteLine((newRecordObteined == true) ? "ACCEPT" : "REJECT");
+                                        sw.Flush();
+
                                     }
                                     catch (FormatException error)
                                     {
