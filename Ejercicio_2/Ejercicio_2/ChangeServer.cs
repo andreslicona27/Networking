@@ -43,7 +43,7 @@ namespace Ejercicio_2
             else if (((TextBox)sender) == txtPort)
             {
                 bool portTry = int.TryParse(txtPort.Text, out newPort);
-                if (!portTry || txtPort.Text.Length > IPEndPoint.MaxPort || txtPort.Text.Length < 0)
+                if (!portTry || int.Parse(txtPort.Text) > IPEndPoint.MaxPort || txtPort.Text.Length < 0)
                 {
                     txtPort.BackColor = Color.Red;
                 }

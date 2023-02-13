@@ -117,10 +117,11 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbUser);
             this.Controls.Add(this.panelActions);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.ShowIcon = false;
             this.Text = "Shift Server";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panelActions.ResumeLayout(false);
             this.ResumeLayout(false);

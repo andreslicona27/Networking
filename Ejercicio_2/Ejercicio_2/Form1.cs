@@ -9,6 +9,8 @@ namespace Ejercicio_2
         string IP_SERVER = "192.168.20.100";
         int PORT = 5001;
         string userMsg;
+        bool ipCorrect;
+        bool portCorrect;
         public Form1()
         {
             InitializeComponent();
@@ -21,13 +23,45 @@ namespace Ejercicio_2
             {
                 if (cs.ip != null && cs.port != null)
                 {
-                    IP_SERVER = cs.ip.ToString();
-                    PORT = cs.port;
+                    ipCorrect = IPAddress.TryParse(cs.ip.ToString(), out IPAddress ip);
+                    if (ipCorrect)
+                    {
+                        IP_SERVER = ip.ToString();
+                    }
+                    else
+                    {
+                        IP_SERVER = "192.168.20.100";
+                    }
+                    if (cs.port < IPEndPoint.MaxPort)
+                    {
+                        PORT = cs.port;
+                    }
+                    else
+                    {
+                        PORT = 5001;
+                    }
                     tbInfo.Text = "Information: Server changed successfully";
                 }
                 else
                 {
                     MessageBox.Show("Some informacion is missing", "Missing information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                string path = Environment.GetEnvironmentVariable("USERPROFILE");
+                try
+                {
+                  
+
+                    using (StreamWriter sw = new StreamWriter(path + "\\Conection_Info.txt"))
+                    {
+                        sw.WriteLine(IP_SERVER);
+                        sw.WriteLine(PORT);
+                        sw.WriteLine(tbUser.Text);
+                    }
+                }
+                catch (IOException error)
+                {
+                    Console.WriteLine($"Error {error.Message}");
                 }
             }
         }
@@ -91,28 +125,7 @@ namespace Ejercicio_2
             }
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            string path = Environment.GetEnvironmentVariable("USERPROFILE");
-            try
-            {
-                if (!File.Exists(path + "\\Conection_Info.txt"))
-                {
-                    File.Create(path + "\\Conection_Info.txt");
-                }
 
-                using (StreamWriter sw = new StreamWriter(path + "\\Conection_Info.txt"))
-                {
-                    sw.WriteLine(IP_SERVER);
-                    sw.WriteLine(PORT);
-                    sw.WriteLine(tbUser.Text);
-                }
-            }
-            catch (IOException error)
-            {
-                Console.WriteLine($"Error {error.Message}");
-            }
-        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -123,8 +136,24 @@ namespace Ejercicio_2
                 {
                     using (StreamReader sr = new StreamReader(path + "\\Conection_Info.txt"))
                     {
-                        IP_SERVER = sr.ReadLine();
-                        PORT = int.Parse(sr.ReadLine());
+                        ipCorrect = IPAddress.TryParse(sr.ReadLine(), out IPAddress ip);
+                        portCorrect = int.TryParse(sr.ReadLine(), out int port);
+                        if (ipCorrect)
+                        {
+                            IP_SERVER = ip.ToString();
+                        }
+                        else
+                        {
+                            IP_SERVER = "192.168.20.100";
+                        }
+                        if (portCorrect && port < IPEndPoint.MaxPort)
+                        {
+                            PORT = port;
+                        }
+                        else
+                        {
+                            PORT = 5001;
+                        }
                         tbUser.Text = sr.ReadLine();
                     }
                 }

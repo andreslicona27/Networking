@@ -13,8 +13,8 @@ namespace Ejercicio_5
 {
     internal class Hanged
     {
-        //string IP_SERVER = "192.168.20.11";
-        string IP_SERVER = "192.168.56.1";
+        string IP_SERVER = "192.168.20.11";
+        //string IP_SERVER = "192.168.56.1";
         int PORT = 12000;
         string[] words;
         bool conexion = true;
@@ -58,6 +58,7 @@ namespace Ejercicio_5
                     catch (SocketException error)
                     {
                         Console.WriteLine($"Error {error.Message}");
+                        ie.Port++;
                     }
                 } while (!tryConexion);
 
@@ -128,7 +129,7 @@ namespace Ejercicio_5
                                         else
                                         {
                                             FileInfo f = new FileInfo(pathRecord);
-                                            if (f.Length < 0)
+                                            if (f.Length == 0)
                                             {
                                                 hasRecords = false;
                                             }
@@ -140,16 +141,9 @@ namespace Ejercicio_5
                                             using (StreamReader srRecords = new StreamReader(pathRecord))
                                             {
                                                 message = srRecords.ReadToEnd();
-                                                if (message.Trim().Length < 0)
-                                                {
-                                                    sw.WriteLine("No records to show yet");
-                                                    sw.Flush();
-                                                }
-                                                else
-                                                {
-                                                    sw.WriteLine(message);
-                                                    sw.Flush();
-                                                }
+
+                                                sw.WriteLine(message);
+                                                sw.Flush();
                                             }
                                         }
                                         else
@@ -178,32 +172,34 @@ namespace Ejercicio_5
 
                                         using (StreamReader srSetRecord = new StreamReader(pathRecord))
                                         {
-                                            while (srSetRecord != null)
+                                            while (srSetRecord.ReadLine() != null)
                                             {
                                                 records.Add(srSetRecord.ReadLine());
                                             }
                                         }
 
                                         double time = 0;
-                                        using (StreamWriter swRecord = new StreamWriter(pathRecord))
+                                        using (StreamWriter swRecord = new StreamWriter(pathRecord, true))
                                         {
                                             if (record.Length > 11)
                                             {
-                                                record.Substring(11);
-                                                time = double.Parse(record.Substring(2));
+                                                record = record.Substring(11);
+                                                time = int.Parse(record.Substring(3).Trim());
                                             }
 
-                                            if (records.Count > 0)
+                                            if (records.Count > 3)
                                             {
-                                                if (records.Any(r => double.Parse(r.Substring(2).Trim()) < time))
+                                                if (records.Any(r => int.Parse(r.Substring(2).Trim()) < time))
                                                 {
-                                                    records.Remove(records.Where(r => double.Parse(r.Substring(2).Trim()) > time).FirstOrDefault());
+                                                    records.Remove(records.Where(r => int.Parse(r.Substring(2).Trim()) > time).FirstOrDefault());
                                                     records.Add(record);
+                                                    newRecordObteined = true;
                                                 }
                                             }
                                             else
                                             {
                                                 swRecord.WriteLine(record);
+                                                newRecordObteined = true;
                                             }
                                         }
                                         sw.WriteLine((newRecordObteined == true) ? "ACCEPT" : "REJECT");
