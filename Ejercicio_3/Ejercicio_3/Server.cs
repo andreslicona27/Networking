@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using System.Xml;
 
 namespace Ejercicio_3
 {
@@ -13,7 +14,8 @@ namespace Ejercicio_3
     {
         public string ip = "192.168.20.11";
         public int port = 12000;
-        ArrayList clients = new ArrayList();
+        Dictionary<string, StreamWriter> clients = new Dictionary<string, StreamWriter>();
+        private static readonly object l = new object();
         public void init()
         {
             bool tryConexion = false;
@@ -55,21 +57,35 @@ namespace Ejercicio_3
             using (StreamWriter sw = new StreamWriter(ns))
             {
                 string msgUser = "";
-                clients.Add(sw);
+                string user;
+                string list = "";
                 try
                 {
                     msgUser = sr.ReadLine();
-                    if (msgUser.StartsWith("user "))
+                    if (msgUser != null && msgUser.StartsWith("user "))
                     {
-                        string user = string.Format("{0}@{1}", msgUser.Substring(5), ieClient.Address);
-                        printMsg($"{user} has connected");
+                        user = string.Format("{0}@{1}", msgUser.Substring(5), ieClient.Address);
+                        clients.Add(user, sw);
+                        printMsg($"{user} has connected", user);
                         while (msgUser != null && !msgUser.Contains("#exit"))
                         {
-                            msgUser = sr.ReadLine();
-                            printMsg($"{user} {msgUser}");
+                            if (msgUser.Contains("#list"))
+                            {
+                                foreach (string c in clients.Keys)
+                                {
+                                    list += c + "\n";
+                                }
+                                sw.WriteLine(list);
+                                sw.Flush();
+                            }
+                            else
+                            {
+                                msgUser = sr.ReadLine();
+                                printMsg($"{user} {msgUser}", user);
+                            }
                         }
-                        clients.Remove(sw);
-                        printMsg($"{user} has desconnected");
+                        clients.Remove(user);
+                        printMsg($"{user} has desconnected", user);
                     }
                 }
                 catch (IOException e)
@@ -82,13 +98,22 @@ namespace Ejercicio_3
 
         }
 
-        public void printMsg(string message)
+        public void printMsg(string message, string userSended)
         {
-            foreach (StreamWriter client in clients)
+            foreach (KeyValuePair<string, StreamWriter> pair in clients)
             {
-                client.WriteLine(message);
-                client.Flush();
+                if (pair.Key != userSended)
+                {
+                    pair.Value.WriteLine(message);
+                    pair.Value.Flush();
+                }
             }
+
         }
+        /*
+         * Agregar los locks 
+         * Agregar comando #list
+         * Que no escriba mi mensaje en mi consola crear un dictionary para esto 
+         */
     }
 }
