@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            Hanged h = new Hanged();
+            Hangman h = new Hangman();
             h.init();
         }
     }

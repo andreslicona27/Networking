@@ -239,7 +239,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Welcome to Hanged";
+            this.Text = "Welcome to HangMan";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.RecordsPanel.ResumeLayout(false);

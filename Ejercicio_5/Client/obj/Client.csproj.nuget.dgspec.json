@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Andres\\Vivas\\Networking\\Networking\\Ejercicio_5\\Client\\Client.csproj": {}
+    "C:\\Users\\Andres Licona\\Vivas\\Networking\\Networking\\Ejercicio_5\\Client\\Client.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Andres\\Vivas\\Networking\\Networking\\Ejercicio_5\\Client\\Client.csproj": {
+    "C:\\Users\\Andres Licona\\Vivas\\Networking\\Networking\\Ejercicio_5\\Client\\Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Andres\\Vivas\\Networking\\Networking\\Ejercicio_5\\Client\\Client.csproj",
+        "projectUniqueName": "C:\\Users\\Andres Licona\\Vivas\\Networking\\Networking\\Ejercicio_5\\Client\\Client.csproj",
         "projectName": "Client",
-        "projectPath": "C:\\Users\\Andres\\Vivas\\Networking\\Networking\\Ejercicio_5\\Client\\Client.csproj",
-        "packagesPath": "C:\\Users\\Andres\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Andres\\Vivas\\Networking\\Networking\\Ejercicio_5\\Client\\obj\\",
+        "projectPath": "C:\\Users\\Andres Licona\\Vivas\\Networking\\Networking\\Ejercicio_5\\Client\\Client.csproj",
+        "packagesPath": "C:\\Users\\Andres Licona\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Andres Licona\\Vivas\\Networking\\Networking\\Ejercicio_5\\Client\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Andres\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Andres Licona\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -58,7 +58,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

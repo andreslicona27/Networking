@@ -11,10 +11,10 @@ using System.IO;
 
 namespace Ejercicio_5
 {
-    internal class Hanged
+    internal class Hangman
     {
-        string IP_SERVER = "192.168.20.11";
-        //string IP_SERVER = "192.168.56.1";
+        //string IP_SERVER = "192.168.20.11";
+        string IP_SERVER = "192.168.56.1";
         int PORT = 12000;
         string[] words;
         bool conexion = true;
@@ -172,38 +172,45 @@ namespace Ejercicio_5
 
                                         using (StreamReader srSetRecord = new StreamReader(pathRecord))
                                         {
+                                            string oldRecord = "";
                                             while (srSetRecord.ReadLine() != null)
                                             {
-                                                records.Add(srSetRecord.ReadLine());
+                                                oldRecord = srSetRecord.ReadLine();
+                                                records.Add(oldRecord);
                                             }
                                         }
 
                                         double time = 0;
-                                        using (StreamWriter swRecord = new StreamWriter(pathRecord, true))
+                                        using (StreamWriter swRecord = new StreamWriter(pathRecord))
                                         {
                                             if (record.Length > 11)
                                             {
                                                 record = record.Substring(11);
-                                                time = int.Parse(record.Substring(3).Trim());
+                                                time = double.Parse(record.Substring(3).Trim());
                                             }
 
                                             if (records.Count > 3)
                                             {
-                                                if (records.Any(r => int.Parse(r.Substring(2).Trim()) < time))
+                                                if (records.Any(r => double.Parse(r.Substring(2).Trim()) > time))
                                                 {
-                                                    records.Remove(records.Where(r => int.Parse(r.Substring(2).Trim()) > time).FirstOrDefault());
+                                                    records.Remove(records.Where(r => double.Parse(r.Substring(2).Trim()) > time).FirstOrDefault());
                                                     records.Add(record);
                                                     newRecordObteined = true;
                                                 }
                                             }
                                             else
                                             {
-                                                swRecord.WriteLine(record);
+                                                records.Add(record);
+                                                foreach (string r in records)
+                                                {
+                                                    swRecord.WriteLine(r);
+                                                }
                                                 newRecordObteined = true;
                                             }
                                         }
                                         sw.WriteLine((newRecordObteined == true) ? "ACCEPT" : "REJECT");
                                         sw.Flush();
+                                        records.Clear();
 
                                     }
                                     catch (FormatException error)
