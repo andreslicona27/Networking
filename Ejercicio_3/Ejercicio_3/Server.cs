@@ -65,26 +65,54 @@ namespace Ejercicio_3
                     if (msgUser != null && msgUser.StartsWith("user "))
                     {
                         user = string.Format("{0}@{1}", msgUser.Substring(5), ieClient.Address);
-                        clients.Add(user, sw);
+                        //clients.Add(user, sw);
+                        addClient(user, sw);
                         printMsg($"{user} has connected", user);
-                        while (msgUser != null && !msgUser.Contains("#exit"))
+                        msgUser = sr.ReadLine(); // esta linea tengo que ver si la puedo quitar 
+                        while (msgUser != null || !msgUser.Contains("#exit"))
                         {
-                            if (msgUser.Contains("#list"))
+                            msgUser = sr.ReadLine();
+                            //if (msgUser != null && msgUser.Contains("#list"))
+                            //{
+                            //    foreach (string c in clients.Keys)
+                            //    {
+                            //        list += c + "\n";
+                            //    }
+                            //    sw.Write(list);
+                            //    sw.Flush();
+                            //}
+                            //else if (msgUser != null)
+                            //{
+                            //    printMsg($"{user} {msgUser}", user);
+                            //}
+                            switch (msgUser)
                             {
-                                foreach (string c in clients.Keys)
-                                {
-                                    list += c + "\n";
-                                }
-                                sw.WriteLine(list);
-                                sw.Flush();
-                            }
-                            else
-                            {
-                                msgUser = sr.ReadLine();
-                                printMsg($"{user} {msgUser}", user);
+                                case string msg when msg.Contains("#exit"):
+                                    lock (l)
+                                    {
+                                        clients.Remove(user);
+                                    }
+                                    printMsg($"{user} has desconnected", user);
+                                    msgUser = null;
+                                    break;
+
+                                case string msg when msg.Contains("#exit"):
+                                    foreach (string c in clients.Keys)
+                                    {
+                                        list += c + "\n";
+                                    }
+                                    sw.Write(list);
+                                    sw.Flush();
+                                    break;
+                                default:
+                                    printMsg($"{user} {msgUser}", user);
+                                    break;
                             }
                         }
-                        clients.Remove(user);
+                        lock (l)
+                        {
+                            clients.Remove(user);
+                        }
                         printMsg($"{user} has desconnected", user);
                     }
                 }
@@ -98,22 +126,39 @@ namespace Ejercicio_3
 
         }
 
+        public void addClient(string user, StreamWriter sw)
+        {
+            bool added = false;
+            while (!added)
+            {
+                lock (l)
+                {
+                    if (!added)
+                    {
+                        clients.Add(user, sw);
+                        added = true;
+                    }
+                }
+            }
+        }
+
         public void printMsg(string message, string userSended)
         {
-            foreach (KeyValuePair<string, StreamWriter> pair in clients)
+            lock (l)
             {
-                if (pair.Key != userSended)
+                foreach (KeyValuePair<string, StreamWriter> pair in clients)
                 {
-                    pair.Value.WriteLine(message);
-                    pair.Value.Flush();
+                    if (pair.Key != userSended && pair.Value != null)
+                    {
+                        pair.Value.WriteLine(message);
+                        pair.Value.Flush();
+                    }
                 }
             }
 
         }
         /*
          * Agregar los locks 
-         * Agregar comando #list
-         * Que no escriba mi mensaje en mi consola crear un dictionary para esto 
          */
     }
 }
