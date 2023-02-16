@@ -13,6 +13,7 @@ namespace Ejercicio_3
     internal class Server
     {
         public string ip = "192.168.20.11";
+        //public string ip = "192.168.56.1";
         public int port = 12000;
         Dictionary<string, StreamWriter> clients = new Dictionary<string, StreamWriter>();
         private static readonly object l = new object();
@@ -65,26 +66,15 @@ namespace Ejercicio_3
                     if (msgUser != null && msgUser.StartsWith("user "))
                     {
                         user = string.Format("{0}@{1}", msgUser.Substring(5), ieClient.Address);
-                        //clients.Add(user, sw);
                         addClient(user, sw);
                         printMsg($"{user} has connected", user);
-                        msgUser = sr.ReadLine(); // esta linea tengo que ver si la puedo quitar 
-                        while (msgUser != null || !msgUser.Contains("#exit"))
+                        
+                        sw.WriteLine("Connected");
+                        sw.Flush();
+
+                        while (msgUser != null)
                         {
                             msgUser = sr.ReadLine();
-                            //if (msgUser != null && msgUser.Contains("#list"))
-                            //{
-                            //    foreach (string c in clients.Keys)
-                            //    {
-                            //        list += c + "\n";
-                            //    }
-                            //    sw.Write(list);
-                            //    sw.Flush();
-                            //}
-                            //else if (msgUser != null)
-                            //{
-                            //    printMsg($"{user} {msgUser}", user);
-                            //}
                             switch (msgUser)
                             {
                                 case string msg when msg.Contains("#exit"):
@@ -92,18 +82,19 @@ namespace Ejercicio_3
                                     {
                                         clients.Remove(user);
                                     }
-                                    printMsg($"{user} has desconnected", user);
                                     msgUser = null;
                                     break;
 
-                                case string msg when msg.Contains("#exit"):
+                                case string msg when msg.Contains("#list"):
                                     foreach (string c in clients.Keys)
                                     {
-                                        list += c + "\n";
+                                        list += c + "\r\n";
                                     }
                                     sw.Write(list);
                                     sw.Flush();
+                                    list = "";
                                     break;
+
                                 default:
                                     printMsg($"{user} {msgUser}", user);
                                     break;
@@ -157,8 +148,6 @@ namespace Ejercicio_3
             }
 
         }
-        /*
-         * Agregar los locks 
-         */
+     
     }
 }
