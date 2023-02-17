@@ -1,0 +1,11 @@
+C:\Users\Andres\Vivas\Networking\Networking\TimeAndDate\TimeAndDate\bin\Debug\TimeAndDate.exe.config
+C:\Users\Andres\Vivas\Networking\Networking\TimeAndDate\TimeAndDate\bin\Debug\TimeAndDate.exe
+C:\Users\Andres\Vivas\Networking\Networking\TimeAndDate\TimeAndDate\bin\Debug\TimeAndDate.pdb
+C:\Users\Andres\Vivas\Networking\Networking\TimeAndDate\TimeAndDate\obj\Debug\TimeAndDate.csproj.AssemblyReference.cache
+C:\Users\Andres\Vivas\Networking\Networking\TimeAndDate\TimeAndDate\obj\Debug\TimeAndDate.csproj.SuggestedBindingRedirects.cache
+C:\Users\Andres\Vivas\Networking\Networking\TimeAndDate\TimeAndDate\obj\Debug\TimeAndDate.ProjectInstaller.resources
+C:\Users\Andres\Vivas\Networking\Networking\TimeAndDate\TimeAndDate\obj\Debug\TimeAndDate.TimeAndDate.resources
+C:\Users\Andres\Vivas\Networking\Networking\TimeAndDate\TimeAndDate\obj\Debug\TimeAndDate.csproj.GenerateResource.cache
+C:\Users\Andres\Vivas\Networking\Networking\TimeAndDate\TimeAndDate\obj\Debug\TimeAndDate.csproj.CoreCompileInputs.cache
+C:\Users\Andres\Vivas\Networking\Networking\TimeAndDate\TimeAndDate\obj\Debug\TimeAndDate.exe
+C:\Users\Andres\Vivas\Networking\Networking\TimeAndDate\TimeAndDate\obj\Debug\TimeAndDate.pdb

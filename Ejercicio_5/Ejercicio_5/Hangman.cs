@@ -13,8 +13,8 @@ namespace Ejercicio_5
 {
     internal class Hangman
     {
-        //string IP_SERVER = "192.168.20.11";
-        string IP_SERVER = "192.168.56.1";
+        string IP_SERVER = "192.168.20.11";
+        //string IP_SERVER = "192.168.56.1";
         int PORT = 12000;
         string[] words;
         bool conexion = true;

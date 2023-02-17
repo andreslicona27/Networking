@@ -5,7 +5,9 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ejercicio_1", "Ejercicio_1\Ejercicio_1.csproj", "{B2BC4080-85B4-4927-AC91-9F1726460990}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{9F501DE5-4751-4C02-860D-8B81417CED20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{9F501DE5-4751-4C02-860D-8B81417CED20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsService", "WindowsService\WindowsService.csproj", "{83699655-BCAD-4FE2-82AF-36E64EC63F13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{9F501DE5-4751-4C02-860D-8B81417CED20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F501DE5-4751-4C02-860D-8B81417CED20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F501DE5-4751-4C02-860D-8B81417CED20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83699655-BCAD-4FE2-82AF-36E64EC63F13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83699655-BCAD-4FE2-82AF-36E64EC63F13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83699655-BCAD-4FE2-82AF-36E64EC63F13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83699655-BCAD-4FE2-82AF-36E64EC63F13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
