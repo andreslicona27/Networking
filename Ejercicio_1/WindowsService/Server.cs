@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Ejercicio_1
 {
@@ -13,10 +14,10 @@ namespace Ejercicio_1
         private string ip = "192.168.20.11";
         public int Port;
         public bool weHaveConexion = false;
+        public string message = "";
 
 
         private bool conexion = true;
-        bool tryConexion = false;
         public void init()
         {
             PortValidation();
@@ -31,6 +32,7 @@ namespace Ejercicio_1
                 catch (SocketException e)
                 {
                     weHaveConexion = false;
+                    message = e.Message;
                     Console.WriteLine("Error " + e.Message);
                 }
 

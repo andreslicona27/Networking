@@ -1,11 +1,15 @@
-﻿using System;
+﻿using Ejercicio_1;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
+using System.Runtime.Remoting.Channels;
 using System.ServiceProcess;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WindowsService
@@ -15,11 +19,12 @@ namespace WindowsService
         public Service1()
         {
             InitializeComponent();
+          
         }
 
         public void writeEvent(string mensaje)
         {
-            string nombre = "My Time and Date Service";
+            string nombre = "My Time and Date Service"; 
             string logDestino = "Application";
             if (!EventLog.SourceExists(nombre))
             {
@@ -27,26 +32,27 @@ namespace WindowsService
             }
             EventLog.WriteEntry(nombre, mensaje);
         }
-        
-        private int t = 0;
-        public void TimerTick(object sender, System.Timers.ElapsedEventArgs args)
-        {
-            writeEvent(string.Format($"Time and Date Service running about {t} seconds"));
-            t += 10;
-        }
 
         protected override void OnStart(string[] args)
         {
-            writeEvent("Running OnStart");
-            System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Interval = 10000; 
-            timer.Elapsed += new System.Timers.ElapsedEventHandler(this.TimerTick);
-            timer.Start();
+            writeEvent("Running the service");
+            Server s = new Server();
+            Thread serviceThread = new Thread(s.init);
+            if (s.weHaveConexion)
+            {
+                writeEvent($"You are connected at port: {s.Port}");
+            }
+            else
+            {
+                writeEvent($"You have an error: {s.message}");
+            }
+
 
         }
 
         protected override void OnStop()
         {
+            writeEvent("You stop the service");
         }
     }
 }

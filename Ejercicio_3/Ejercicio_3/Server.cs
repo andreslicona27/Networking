@@ -68,7 +68,7 @@ namespace Ejercicio_3
                         user = string.Format("{0}@{1}", msgUser.Substring(5), ieClient.Address);
                         addClient(user, sw);
                         printMsg($"{user} has connected", user);
-                        
+
                         sw.WriteLine("Connected");
                         sw.Flush();
 
@@ -86,9 +86,12 @@ namespace Ejercicio_3
                                     break;
 
                                 case string msg when msg.Contains("#list"):
-                                    foreach (string c in clients.Keys)
+                                    lock (l)
                                     {
-                                        list += c + "\r\n";
+                                        foreach (string c in clients.Keys)
+                                        {
+                                            list += c + "\r\n";
+                                        }
                                     }
                                     sw.Write(list);
                                     sw.Flush();
@@ -148,6 +151,6 @@ namespace Ejercicio_3
             }
 
         }
-     
+
     }
 }

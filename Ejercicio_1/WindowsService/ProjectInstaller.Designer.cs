@@ -39,8 +39,9 @@
             // 
             // serviceInstaller1
             // 
+            this.serviceInstaller1.Description = "This service can give the date, the time or the combination of both";
             this.serviceInstaller1.DisplayName = "Time and Date Service";
-            this.serviceInstaller1.ServiceName = "Service1";
+            this.serviceInstaller1.ServiceName = "Time and Date Service";
             // 
             // ProjectInstaller
             // 
