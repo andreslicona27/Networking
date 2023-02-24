@@ -116,3 +116,124 @@ Los parámetros afectados son:
 Quitando el origen de EventLog Time and Date Service.
 Se está quitando el servicio Time and Date Service del sistema...
 El servicio Time and Date Service se ha quitado correctamente del sistema.
+Instalando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe
+Instalando el servicio Time and Date Service...
+El servicio Time and Date Service se ha instalado correctamente.
+Creando el origen de EventLog Time and Date Service en el registro Application...
+Confirmando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe
+Desinstalando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe
+Quitando el origen de EventLog Time and Date Service.
+Se está quitando el servicio Time and Date Service del sistema...
+El servicio Time and Date Service se ha quitado correctamente del sistema.
+Intento de detener el servicio Time and Date Service.
+Instalando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe
+Instalando el servicio Time and Date Service...
+El servicio Time and Date Service se ha instalado correctamente.
+Creando el origen de EventLog Time and Date Service en el registro Application...
+Confirmando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe
+Desinstalando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe
+Quitando el origen de EventLog Time and Date Service.
+Se está quitando el servicio Time and Date Service del sistema...
+El servicio Time and Date Service se ha quitado correctamente del sistema.
+Intento de detener el servicio Time and Date Service.
+Instalando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe
+Instalando el servicio Time and Date Service...
+El servicio Time and Date Service se ha instalado correctamente.
+Creando el origen de EventLog Time and Date Service en el registro Application...
+Confirmando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe
+Desinstalando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe
+Quitando el origen de EventLog Time and Date Service.
+Se está quitando el servicio Time and Date Service del sistema...
+El servicio Time and Date Service se ha quitado correctamente del sistema.
+Intento de detener el servicio Time and Date Service.
+Instalando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe
+Instalando el servicio Time and Date Service...
+El servicio Time and Date Service se ha instalado correctamente.
+Creando el origen de EventLog Time and Date Service en el registro Application...
+Confirmando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe
+Desinstalando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe
+Quitando el origen de EventLog Time and Date Service.
+Se está quitando el servicio Time and Date Service del sistema...
+El servicio Time and Date Service se ha quitado correctamente del sistema.
+Instalando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe
+Instalando el servicio Time and Date Service...
+El servicio Time and Date Service se ha instalado correctamente.
+Creando el origen de EventLog Time and Date Service en el registro Application...
+Confirmando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe
+Desinstalando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe
+Quitando el origen de EventLog Time and Date Service.
+Se está quitando el servicio Time and Date Service del sistema...
+El servicio Time and Date Service se ha quitado correctamente del sistema.
+Instalando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe
+Instalando el servicio Time and Date Service...
+El servicio Time and Date Service se ha instalado correctamente.
+Creando el origen de EventLog Time and Date Service en el registro Application...
+Confirmando ensamblado 'C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.InstallLog
+   assemblypath = C:\Users\Andres\Vivas\Networking\Networking\Ejercicio_1\WindowsService\bin\Debug\WindowsService.exe

@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Diagnostics;
 
 namespace Ejercicio_1
 {
@@ -13,11 +14,9 @@ namespace Ejercicio_1
     {
         private string ip = "192.168.20.11";
         public int Port;
-        public bool weHaveConexion = false;
-        public string message = "";
 
 
-        private bool conexion = true;
+        public bool conexion = true;
         public void init()
         {
             PortValidation();
@@ -27,16 +26,14 @@ namespace Ejercicio_1
                 try
                 {
                     s.Bind(ie);
-                    weHaveConexion = true;
+                    writeEvent($"You are connected at port: {Port}");
                 }
                 catch (SocketException e)
                 {
-                    weHaveConexion = false;
-                    message = e.Message;
-                    Console.WriteLine("Error " + e.Message);
+                    writeEvent($"You have an error: {e.Message}");
                 }
 
-                s.Listen(2);
+                s.Listen(1);
                 Console.WriteLine($"Server listening at portTest:{ie.Port}");
                 while (conexion)
                 {
@@ -119,13 +116,14 @@ namespace Ejercicio_1
                         Console.WriteLine("Client disconnected.\nConnection closed");
                     }
                     sClient.Close();
+                    s.Close();
                 }
             }
         }
 
         private void PortValidation()
         {
-            string path = Environment.GetEnvironmentVariable("PROGRAMDATA") + "port.txt";
+            string path = Environment.GetEnvironmentVariable("PROGRAMDATA") + "/port.txt";
             FileInfo file = new FileInfo(path);
             string portTest = "";
             if (file.Exists)
@@ -140,7 +138,6 @@ namespace Ejercicio_1
                     if (portTest2 < IPEndPoint.MaxPort)
                     {
                         Port = portTest2;
-                        weHaveConexion = true;
                     }
                 }
             }
@@ -149,6 +146,16 @@ namespace Ejercicio_1
                 Port = 12000;
             }
 
+        }
+        public void writeEvent(string mensaje)
+        {
+            string nombre = "My Time and Date Service";
+            string logDestino = "Application";
+            if (!EventLog.SourceExists(nombre))
+            {
+                EventLog.CreateEventSource(nombre, logDestino);
+            }
+            EventLog.WriteEntry(nombre, mensaje);
         }
 
     }

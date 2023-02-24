@@ -19,12 +19,12 @@ namespace WindowsService
         public Service1()
         {
             InitializeComponent();
-          
+
         }
 
         public void writeEvent(string mensaje)
         {
-            string nombre = "My Time and Date Service"; 
+            string nombre = "My Time and Date Service";
             string logDestino = "Application";
             if (!EventLog.SourceExists(nombre))
             {
@@ -33,26 +33,20 @@ namespace WindowsService
             EventLog.WriteEntry(nombre, mensaje);
         }
 
+        Server s = new Server();
+        Thread serviceThread;
         protected override void OnStart(string[] args)
         {
             writeEvent("Running the service");
-            Server s = new Server();
-            Thread serviceThread = new Thread(s.init);
-            if (s.weHaveConexion)
-            {
-                writeEvent($"You are connected at port: {s.Port}");
-            }
-            else
-            {
-                writeEvent($"You have an error: {s.message}");
-            }
-
-
+            serviceThread = new Thread(s.init);
+            serviceThread.Start();
         }
 
         protected override void OnStop()
         {
             writeEvent("You stop the service");
+            s.conexion = false;
+            
         }
     }
 }
