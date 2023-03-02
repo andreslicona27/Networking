@@ -14,14 +14,15 @@ namespace Ejercicio_1
     {
         private string ip = "192.168.20.11";
         public int Port;
-
+        public Socket s;
 
         public bool conexion = true;
+
         public void init()
         {
             PortValidation();
             IPEndPoint ie = new IPEndPoint(IPAddress.Parse(ip), Port);
-            using (Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+            using (s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
             {
                 try
                 {
@@ -33,90 +34,103 @@ namespace Ejercicio_1
                     writeEvent($"You have an error: {e.Message}");
                 }
 
-                s.Listen(1);
+                s.Listen(2);
                 Console.WriteLine($"Server listening at portTest:{ie.Port}");
                 while (conexion)
                 {
-                    Socket sClient = s.Accept();
-                    IPEndPoint ieClient = (IPEndPoint)sClient.RemoteEndPoint;
-                    Console.WriteLine("Client connected: {0} at portTest {1}", ieClient.Address,
-                   ieClient.Port);
-                    using (NetworkStream ns = new NetworkStream(sClient))
-                    using (StreamReader sr = new StreamReader(ns))
-                    using (StreamWriter sw = new StreamWriter(ns))
+                    try
                     {
-                        string welcome = "Welcome to the ultimate server, thats powerfull enough to give the time, the date an even the combination of both";
-                        sw.WriteLine(welcome);
-                        sw.Flush();
-                        string msg = "";
-                        try
+                        Socket sClient = s.Accept();
+                        IPEndPoint ieClient = (IPEndPoint)sClient.RemoteEndPoint;
+                        Console.WriteLine("Client connected: {0} at portTest {1}", ieClient.Address,  ieClient.Port);
+                        using (NetworkStream ns = new NetworkStream(sClient))
+                        using (StreamReader sr = new StreamReader(ns))
+                        using (StreamWriter sw = new StreamWriter(ns))
                         {
-                            msg = sr.ReadLine();
-                            switch (msg)
+                            string welcome = "Welcome to the ultimate server, thats powerfull enough to give the time, the date an even the combination of both";
+                            sw.WriteLine(welcome);
+                            sw.Flush();
+                            string msg = "";
+                            try
                             {
-                                case "time":
-                                    sw.WriteLine(DateTime.Now.ToString("HH:mm:ss"));
-                                    sw.Flush();
-                                    break;
+                                msg = sr.ReadLine();
+                                switch (msg)
+                                {
+                                    case "time":
+                                        sw.WriteLine(DateTime.Now.ToString("HH:mm:ss"));
+                                        sw.Flush();
+                                        break;
 
-                                case "date":
-                                    sw.WriteLine(DateTime.Now.ToString("dd-MM-yyyy"));
-                                    sw.Flush();
-                                    break;
+                                    case "date":
+                                        sw.WriteLine(DateTime.Now.ToString("dd-MM-yyyy"));
+                                        sw.Flush();
+                                        break;
 
-                                case "all":
-                                    sw.WriteLine(DateTime.Now.ToString());
-                                    sw.Flush();
-                                    break;
+                                    case "all":
+                                        sw.WriteLine(DateTime.Now.ToString());
+                                        sw.Flush();
+                                        break;
 
-                                case String closeMsg when closeMsg.StartsWith("close "):
-                                    string path = Environment.GetEnvironmentVariable("PROGRAMDATA");
-                                    string clientPassword = "";
-                                    using (StreamReader srPassword = new StreamReader(Environment.GetEnvironmentVariable("PROGRAMDATA") + "\\password.txt"))
-                                    {
-                                        try
+                                    case String closeMsg when closeMsg.StartsWith("close "):
+                                        string path = Environment.GetEnvironmentVariable("PROGRAMDATA");
+                                        string clientPassword = "";
+                                        using (StreamReader srPassword = new StreamReader(Environment.GetEnvironmentVariable("PROGRAMDATA") + "\\password.txt"))
                                         {
-                                            if (closeMsg.Length > 5)
+                                            try
                                             {
-                                                clientPassword = closeMsg.Substring(5).Trim();
-                                            }
+                                                if (closeMsg.Length > 5)
+                                                {
+                                                    clientPassword = closeMsg.Substring(5).Trim();
+                                                }
 
-                                            string password = srPassword.ReadToEnd();
-                                            if (password == clientPassword)
+                                                string password = srPassword.ReadToEnd();
+                                                if (password == clientPassword)
+                                                {
+                                                    sw.WriteLine("Server closed successfully");
+                                                    conexion = false;
+                                                    sw.Flush();
+                                                    sClient.Close();
+                                                    s.Close();
+                                                }
+                                                else
+                                                {
+                                                    sw.WriteLine("That password its incorrect");
+                                                    sw.Flush();
+                                                }
+                                            }
+                                            catch (IOException)
                                             {
-                                                sw.WriteLine("Server closed successfully");
                                                 conexion = false;
-                                                sw.Flush();
-                                                sClient.Close();
-                                                s.Close();
-                                            }
-                                            else
-                                            {
-                                                sw.WriteLine("That password its incorrect");
-                                                sw.Flush();
                                             }
                                         }
-                                        catch (IOException)
-                                        {
-                                            conexion = false;
-                                        }
-                                    }
-                                    break;
+                                        break;
 
-                                default:
-                                    sw.WriteLine("Unrecognized command");
-                                    sw.Flush();
-                                    break;
+                                    default:
+                                        sw.WriteLine("Unrecognized command");
+                                        sw.Flush();
+                                        break;
+                                }
                             }
+                            catch (IOException e)
+                            {
+                                conexion = false;
+                            }
+                            Console.WriteLine("Client disconnected.\nConnection closed");
                         }
-                        catch (IOException e)
-                        {
-                            conexion = false;
-                        }
-                        Console.WriteLine("Client disconnected.\nConnection closed");
+                        sClient.Close();
                     }
-                    sClient.Close();
-                    s.Close();
+                    catch (SocketException e)
+                    {
+                        writeEvent($"Error: {e.Message}");
+                    }
+                    catch (ObjectDisposedException e)
+                    {
+                        writeEvent($"Error: {e.Message}");
+                    }
+                    catch (InvalidOperationException e)
+                    {
+                        writeEvent($"Error: {e.Message}");
+                    }
                 }
             }
         }
@@ -126,19 +140,53 @@ namespace Ejercicio_1
             string path = Environment.GetEnvironmentVariable("PROGRAMDATA") + "/port.txt";
             FileInfo file = new FileInfo(path);
             string portTest = "";
+
             if (file.Exists)
             {
-                using (StreamReader sr = new StreamReader(path))
+                try
                 {
-                    portTest = sr.ReadToEnd();
-                }
-
-                if (int.TryParse(portTest, out int portTest2) == true)
-                {
-                    if (portTest2 < IPEndPoint.MaxPort)
+                    using (StreamReader sr = new StreamReader(path))
                     {
-                        Port = portTest2;
+                        portTest = sr.ReadToEnd();
                     }
+
+                    if (int.TryParse(portTest, out int portTest2))
+                    {
+                        if (portTest2 < IPEndPoint.MaxPort)
+                        {
+                            Port = portTest2;
+                        }
+                    }
+                }
+                catch (OutOfMemoryException e)
+                {
+                    writeEvent($"Error: {e.Message}");
+                    Port = 12000;
+                }
+                catch (ArgumentNullException e)
+                {
+                    writeEvent($"Error: {e.Message}");
+                    Port = 12000;
+                }
+                catch (ArgumentException e)
+                {
+                    writeEvent($"Error: {e.Message}");
+                    Port = 12000;
+                }
+                catch (FileNotFoundException e)
+                {
+                    writeEvent($"Error: {e.Message}");
+                    Port = 12000;
+                }
+                catch (DirectoryNotFoundException e)
+                {
+                    writeEvent($"Error: {e.Message}");
+                    Port = 12000;
+                }
+                catch (IOException e)
+                {
+                    writeEvent($"Error: {e.Message}");
+                    Port = 12000;
                 }
             }
             else
@@ -158,5 +206,25 @@ namespace Ejercicio_1
             EventLog.WriteEntry(nombre, mensaje);
         }
 
+        public void cerrarServicio()
+        {
+            try
+            {
+                this.conexion = false;
+                this.s.Close();
+            }
+            catch (SocketException e)
+            {
+                writeEvent($"Error: {e.Message}");
+            }
+            catch (ObjectDisposedException e)
+            {
+                writeEvent($"Error: {e.Message}");
+            }
+            catch (InvalidOperationException e)
+            {
+                writeEvent($"Error: {e.Message}");
+            }
+        }
     }
 }

@@ -5,7 +5,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Sockets;
 using System.Runtime.Remoting.Channels;
 using System.ServiceProcess;
 using System.Text;
@@ -45,8 +47,8 @@ namespace WindowsService
         protected override void OnStop()
         {
             writeEvent("You stop the service");
-            s.conexion = false;
-            
+
+            s.cerrarServicio();
         }
     }
 }

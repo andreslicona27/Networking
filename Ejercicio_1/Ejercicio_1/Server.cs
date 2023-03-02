@@ -20,7 +20,7 @@ namespace Ejercicio_1
         public void init()
         {
             PortValidation();
-            IPEndPoint ie = new IPEndPoint(IPAddress.Parse(ip), Port);
+            IPEndPoint ie = new IPEndPoint(IPAddress.Any, Port);
             using (Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
             {
                 try
