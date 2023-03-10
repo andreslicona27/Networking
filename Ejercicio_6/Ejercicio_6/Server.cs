@@ -10,6 +10,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Diagnostics;
 using System.Collections;
 using System.Xml.Linq;
+using System.Numerics;
 
 namespace Ejercicio_6
 {
@@ -94,14 +95,14 @@ namespace Ejercicio_6
             {
                 lock (l)
                 {
-                    if (users.Count <= 20)
-                    {
-                        player.Ipaddress = iePlayer.Address;
-                        player.Socket = playerSocket;
-                        player.Sw = sw;
-                        player.Number = randomNumbers[0];
-                        player.Connected = true;
+                    player.Ipaddress = iePlayer.Address;
+                    player.Socket = playerSocket;
+                    player.Sw = sw;
+                    player.Connected = true;
 
+                    if (randomNumbers.Count != 0)
+                    {
+                        player.Number = randomNumbers[0];
                         randomNumbers.RemoveAt(0);
                         users.Add(player);
 
@@ -109,13 +110,14 @@ namespace Ejercicio_6
                     }
                     else
                     {
+                        player.Socket.Close();
                         maxUsers = true;
                     }
                 }
 
                 if (maxUsers)
                 {
-                    PrintMsg("The user limit has already been reached");
+                    PrintMsgToAll("The user limit has already been reached");
                 }
                 else
                 {
@@ -139,20 +141,13 @@ namespace Ejercicio_6
                             switch (thereIsAWinner)
                             {
                                 case 1:
-                                    if (player.Number == winner.Number)
-                                    {
-                                        player.Sw.WriteLine($"Congratulations! You win with the number {player.Number}");
-                                    }
-                                    else
-                                    {
-                                        player.Sw.WriteLine($" What a pity, you lost! The winner number was {winner?.Number} and {winner?.Ipaddress.ToString()} was the user with that number. Your number was {player.Number}");
-                                    }
-                                    player.Sw.Flush();
+                                    string youWin = $"Congratulations! You win with the number {player.Number}";
+                                    string youLose = $" What a pity, you lost! The winner number was {winner?.Number} and {winner?.Ipaddress.ToString()} was the user with that number. Your number was {player.Number}";
+                                    PrintMsg(player.Number == winner.Number ? youWin : youLose, player.Sw);
                                     player.Connected = false;
                                     break;
                                 case 2:
-                                    player.Sw.WriteLine($"Nobody wins this time. The winner number was {winner?.Number} and yours was {player.Number}");
-                                    player.Sw.Flush();
+                                    PrintMsg($"Nobody wins this time. The winner number was {winner?.Number} and yours was {player.Number}", player.Sw);
                                     player.Connected = false;
                                     break;
                             }
@@ -185,7 +180,7 @@ namespace Ejercicio_6
                     if (weArePlaying)
                     {
                         seconds--;
-                        PrintMsg(TimeSpan.FromSeconds(seconds).ToString("ss"));
+                        PrintMsgToAll(TimeSpan.FromSeconds(seconds).ToString("ss"));
                     }
 
                     //if (seconds >= timeToReach)}
@@ -217,16 +212,34 @@ namespace Ejercicio_6
             }
         }
 
-        public void PrintMsg(string message)
+        public void PrintMsg(string message, StreamWriter sw)
+        {
+            try
+            {
+                sw.WriteLine(message);
+                sw.Flush();
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine($"The user has disconnected: {e.Message}");
+            }
+        }
+
+        public void PrintMsgToAll(string message)
         {
             lock (l)
             {
                 foreach (User user in users)
                 {
-                    if (user.Connected)
+                    try
                     {
                         user.Sw.WriteLine(message);
                         user.Sw.Flush();
+
+                    }
+                    catch (IOException e)
+                    {
+                        Console.WriteLine($"The user has disconnected");
                     }
                 }
             }
